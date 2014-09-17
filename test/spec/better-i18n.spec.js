@@ -1,59 +1,39 @@
 describe("i18n", function() {
     "use strict";
 
-    // it("should return data-i18n value if no arguments specified", function() {
-    //     expect(DOM.create("span>span[data-i18n]>`test`").i18n()).toBe("test");
-    // });
+    DOM.importStrings("ru", "test", "ru_test");
+    DOM.importStrings("ru", "var {0}", "{0} ru_var");
+    DOM.importStrings("ru", "test {value}", "ru_test {value}");
 
-    // it("should set data-i18n if one argument", function() {
-    //     var span = DOM.create("span");
+    it("should set innerHTML into appropriate value", function() {
+        var p = DOM.mock("p");
 
-    //     expect(span.i18n("key")).toBe(span);
-    //     expect(span.get("data-i18n")).toBe("key");
-    // });
+        p.i18n("test_single");
+        expect(p.get()).toBe("<span data-i18n=\"ru\">test_single</span><span data-i18n=\"\">test_single</span>");
 
-    // it("should set data-i18n and args", function() {
-    //     var span = DOM.create("span");
+        p.i18n("test");
+        expect(p.get()).toBe("<span data-i18n=\"ru\">ru_test</span><span data-i18n=\"\">test</span>");
+    });
 
-    //     expect(span.i18n("key {a1} and {a2}", {a1: "1", a2: "2"})).toBe(span);
-    //     expect(span.get("data-i18n")).toBe("key 1 and 2");
+    it("should support variables", function() {
+        var p = DOM.mock("p");
 
-    //     expect(span.i18n("new {0} and {1}", ["one", "two"])).toBe(span);
-    //     expect(span.get("data-i18n")).toBe("new one and two");
-    // });
+        p.i18n("var {0}", [1]);
+        expect(p.get()).toBe("<span data-i18n=\"ru\">1 ru_var</span><span data-i18n=\"\">var 1</span>");
 
-    // it("should work for coolections", function() {
-    //     var lis = DOM.create("li*3");
+        p.i18n("var {0}", ["abc"]);
+        expect(p.get()).toBe("<span data-i18n=\"ru\">abc ru_var</span><span data-i18n=\"\">var abc</span>");
 
-    //     lis.i18n("test {user}", {user: "Maksim"});
-
-    //     lis.each(function(li) {
-    //         expect(li).toHaveAttr("data-i18n", "test Maksim");
-    //     });
-    // });
-
-    // it("should remove data-* attribute if value is null", function() {
-    //     var span = DOM.create("span");
-
-    //     expect(span.i18n("key0")).toBe(span);
-    //     expect(span).toHaveAttr("data-i18n", "key0");
-
-    //     expect(span.i18n(null)).toBe(span);
-    //     expect(span).not.toHaveAttr("data-i18n");
-
-    //     expect(span.i18n("key1"));
-    //     expect(span).toHaveAttr("data-i18n", "key1");
-
-    //     expect(span.i18n(null, {a: 7}));
-    //     expect(span).not.toHaveAttr("data-i18n");
-    // });
+        p.i18n("test {value}", {value: "my"});
+        expect(p.get()).toBe("<span data-i18n=\"ru\">ru_test my</span><span data-i18n=\"\">test my</span>");
+    });
 
     it("should add i18n method", function() {
-        expect(DOM.create("<span></span>").i18n).toBeDefined();
+        expect(DOM.create("span").i18n).toBeDefined();
     });
 
     it("should throw error if arguments are invalid", function() {
-        var span = DOM.create("<span></span>");
+        var span = DOM.create("span");
 
         expect(function() { span.i18n(1) }).toThrow();
         expect(function() { span.i18n(function() {}) }).toThrow();

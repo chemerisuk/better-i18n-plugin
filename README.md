@@ -12,7 +12,7 @@ Then append the following scripts on your page:
 
 ```html
 <script src="bower_components/better-dom/dist/better-dom.js"></script>
-    <script src="bower_components/better-i18n/dist/better-i18n.js"></script>
+<script src="bower_components/better-i18n/dist/better-i18n.js"></script>
 ```
 
 ## Browser support
