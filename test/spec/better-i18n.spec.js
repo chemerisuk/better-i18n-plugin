@@ -42,6 +42,30 @@ describe("i18n", function() {
     });
 });
 
+describe("DOM.translate", function() {
+    "use strict";
+
+    beforeEach(function() {
+        this.randomString = Math.random().toString(32).split(".")[1];
+    });
+
+    it("should return localized string value", function() {
+        expect(DOM.translate(this.randomString)).toBe(this.randomString);
+        expect(DOM.translate("test")).toBe("test");
+        expect(DOM.translate("test", "ru")).toBe("ru_test");
+    });
+
+    it("should use current language by default", function() {
+        expect(DOM.translate("test")).toBe("test");
+
+        DOM.set("lang", "ru");
+
+        expect(DOM.translate("test")).toBe("ru_test");
+
+        DOM.set("lang", "");
+    });
+});
+
 describe("DOM.importStrings", function(){
     "use strict";
 

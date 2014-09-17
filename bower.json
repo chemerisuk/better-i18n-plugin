@@ -1,5 +1,5 @@
 {
-  "name": "better-emmet",
+  "name": "better-i18n",
   "version": "0.1.0",
   "main": [
     "dist/better-i18n.js"

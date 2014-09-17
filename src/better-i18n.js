@@ -5,24 +5,19 @@
         languages = [];
 
     /**
-     * Set inner content to a localized string
-     * @memberOf $Element.prototype
-     * @param  {String}       [key]     resource string key
-     * @param  {Object|Array} [varMap]  resource string variables
-     * @return {String|$Element}
+     * Return a localized string for current (by default) or specific language
+     * @param  {String}  key     localized string key
+     * @param  {String}  [lang]  target language
+     * @return {String}  localized string value
      */
-    DOM.extend("*", {
-        i18n: function(key, varMap) {
-            if (typeof key !== "string" || varMap && typeof varMap !== "object") throw TypeError("i18n");
+    DOM.translate = function(key, lang) {
+        if (!lang) lang = DOM.get("lang");
 
-            return this.set(languages.concat("").reduce(function(memo, lang, index) {
-                var value = key in strings && strings[key][index] || key,
-                    content = value && varMap ? DOM.format(value, varMap) : value;
+        var values = strings[key],
+            langIndex = languages.indexOf(lang);
 
-                return memo + "<span data-i18n=" + lang + ">" + content + "</span>";
-            }, ""));
-        }
-    });
+        return values && values[langIndex] || key;
+    };
 
     /**
      * Import global i18n string(s)
@@ -30,7 +25,6 @@
      * @param {String}         lang    target language
      * @param {String|Object}  key     english string to localize or key/value object
      * @param {String}         value   localized string
-     * @function
      */
     DOM.importStrings = function(lang, key, value) {
         var keyType = typeof key,
@@ -53,6 +47,26 @@
             throw TypeError("importStrings");
         }
     };
+
+    /**
+     * Set inner content to a localized string
+     * @memberOf $Element.prototype
+     * @param  {String}       [key]     resource string key
+     * @param  {Object|Array} [varMap]  resource string variables
+     * @return {String|$Element}
+     */
+    DOM.extend("*", {
+        i18n: function(key, varMap) {
+            if (typeof key !== "string" || varMap && typeof varMap !== "object") throw TypeError("i18n");
+
+            return this.set(languages.concat("").reduce(function(memo, lang, index) {
+                var value = key in strings && strings[key][index] || key,
+                    content = value && varMap ? DOM.format(value, varMap) : value;
+
+                return memo + "<span data-i18n=" + lang + ">" + content + "</span>";
+            }, ""));
+        }
+    });
 
     // by default just show data-i18n attribute value
     DOM.importStyles("[data-i18n]", "display:none");
