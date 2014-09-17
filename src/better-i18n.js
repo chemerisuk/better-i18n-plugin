@@ -33,7 +33,7 @@
         if (keyType === "string") {
             if (langIndex === -1) {
                 langIndex = languages.push(lang) - 1;
-                // add global rule for the data-i18n-{lang} attribute
+                // add global rule for the data-i18n
                 DOM.importStyles(":lang(" + lang + ") > [data-i18n]", "display:none");
                 DOM.importStyles(":lang(" + lang + ") > [data-i18n=" + lang + "]", "display:inline");
             }
