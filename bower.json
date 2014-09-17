@@ -2,7 +2,7 @@
   "name": "better-emmet",
   "version": "0.1.0",
   "main": [
-    "dist/better-emmet.js"
+    "dist/better-i18n.js"
   ],
   "ignore": [
     ".*",
@@ -11,13 +11,12 @@
     "index.html",
     "Gruntfile.js",
     "package.json",
-    "bower.json",
-    "main.sublime-project"
+    "bower.json"
   ],
   "keywords": [
     "better-dom"
   ],
   "dependencies": {
-    "better-dom": "~1.8.0"
+    "better-dom": "~2.0.0"
   }
 }

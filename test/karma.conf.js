@@ -3,11 +3,15 @@ module.exports = function(config) {
 
     config.set({
         basePath: "..",
-        plugins: ["karma-jasmine", "karma-phantomjs-launcher", "karma-coverage"],
         frameworks: ["jasmine"],
         browsers: ["PhantomJS"],
+        preprocessors: { "src/better-i18n.js": "coverage" },
+        coverageReporter: {
+            type: "html",
+            dir: "coverage/"
+        },
         files: [
-            "bower_components/better-dom/dist/better-dom-legacy.js",
+            "bower_components/es5-shim/es5-shim.js",
             "bower_components/better-dom/dist/better-dom.js",
             "src/*.js",
             "test/spec/*.spec.js"

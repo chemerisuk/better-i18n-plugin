@@ -1,6 +1,6 @@
 {
   "name": "better-i18n",
-  "description": "I18n extension for better-dom",
+  "description": "Internationalization extension for better-dom",
   "version": "0.1.0",
   "author": "Maksim Chemerisuk",
   "license": "MIT",
@@ -9,15 +9,20 @@
     "url": "https://github.com/chemerisuk/better-i18n"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "start": "grunt dev"
   },
   "devDependencies": {
-    "grunt": "0.4.1",
-    "grunt-contrib-jshint": "0.5.4",
-    "grunt-contrib-watch": "0.4.3",
-    "grunt-karma": "0.7.1",
-    "karma-coverage": "~0.1",
-    "grunt-github-publish": "~0.1.5",
-    "grunt-shell": "~0.6.0"
+    "grunt": "^0.4.3",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.0",
+    "grunt-github-publish": "^0.1.1",
+    "grunt-karma": "^0.9.0",
+    "grunt-shell": "~0.6.0",
+    "karma": "^0.12.0",
+    "karma-coverage": "^0.1",
+    "karma-coveralls": "^0.1.4",
+    "karma-jasmine": "^0.2",
+    "karma-phantomjs-launcher": "^0.1"
   }
 }
