@@ -5,21 +5,6 @@
         languages = [];
 
     /**
-     * Return a localized string for current (by default) or specific language
-     * @param  {String}  key     localized string key
-     * @param  {String}  [lang]  target language
-     * @return {String}  localized string value
-     */
-    DOM.translate = function(key, lang) {
-        if (!lang) lang = DOM.get("lang");
-
-        var values = strings[key],
-            langIndex = languages.indexOf(lang);
-
-        return values && values[langIndex] || key;
-    };
-
-    /**
      * Import global i18n string(s)
      * @memberOf DOM
      * @param {String}         lang    target language
@@ -48,25 +33,36 @@
         }
     };
 
-    /**
-     * Set inner content to a localized string
-     * @memberOf $Element.prototype
-     * @param  {String}       [key]     resource string key
-     * @param  {Object|Array} [varMap]  resource string variables
-     * @return {String|$Element}
-     */
-    DOM.extend("*", {
-        i18n: function(key, varMap) {
-            if (typeof key !== "string" || varMap && typeof varMap !== "object") throw TypeError("i18n");
+    DOM.i18n = function(key) {
+        return new Entry(key);
+    };
 
-            return this.set(languages.concat("").reduce(function(memo, lang, index) {
-                var value = key in strings && strings[key][index] || key,
-                    content = value && varMap ? DOM.format(value, varMap) : value;
+    function Entry(key) {
+        var record = strings[key] || {};
 
-                return memo + "<span data-i18n=" + lang + ">" + content + "</span>";
-            }, ""));
-        }
-    });
+        // populate language-specific values
+        languages.forEach(function(lang, index) {
+            if (index in record) this[lang] = record[index];
+        }, this);
+
+        this._ = key;
+    }
+
+    Entry.prototype.toString = function() {
+        var result = Object.keys(this).map(function(key) {
+            var lang = key === "_" ? "" : key;
+
+            return "<span data-i18n=\"" + lang + "\">" + this[key] + "</span>";
+        }, this);
+
+        return result.join("");
+    };
+
+    Entry.prototype.toLocaleString = function(lang) {
+        if (!lang) lang = document.documentElement.lang;
+
+        return lang in this ? this[lang] : this._;
+    };
 
     // by default just show data-i18n attribute value
     DOM.importStyles("[data-i18n]", "display:none");
