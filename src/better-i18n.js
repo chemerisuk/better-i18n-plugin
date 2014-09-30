@@ -42,17 +42,20 @@
 
         // populate language-specific values
         languages.forEach(function(lang, index) {
-            if (index in record) this[lang] = record[index];
+            if (index in record) {
+                this[lang] = record[index];
+            }
         }, this);
 
         this._ = key;
     }
 
-    Entry.prototype.toString = function() {
+    Entry.prototype.toString = function(varMap) {
         var result = Object.keys(this).map(function(key) {
-            var lang = key === "_" ? "" : key;
+            var lang = key === "_" ? "" : key,
+                value = DOM.format(this[key], varMap);
 
-            return "<span data-i18n=\"" + lang + "\">" + this[key] + "</span>";
+            return "<span data-i18n=\"" + lang + "\">" + value + "</span>";
         }, this);
 
         return result.join("");
