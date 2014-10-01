@@ -29,8 +29,8 @@
         }
     };
 
-    DOM.i18n = function(key) {
-        return new Entry(key);
+    DOM.i18n = function(key, varMap) {
+        return new Entry(key, varMap);
     };
 
     // by default just show data-i18n attribute value
@@ -38,10 +38,10 @@
 
     // helper functions
 
-    function Entry(key) {
-        languages.forEach(populateLang(key, this));
+    function Entry(key, varMap) {
+        languages.forEach(populateLang(key, varMap, this));
 
-        this._ = key;
+        this._ = DOM.format(key, varMap || {});
     }
 
     Entry.prototype.toString = function(varMap) {
@@ -54,12 +54,12 @@
         return lang in this ? this[lang] : this._;
     };
 
-    function populateLang(key, entry) {
+    function populateLang(key, varMap, entry) {
         var record = strings[key] || {};
 
         return function(lang, index) {
             if (index in record) {
-                entry[lang] = record[index];
+                entry[lang] = DOM.format(record[index], varMap || {});
             }
         };
     }
@@ -67,7 +67,7 @@
     function formatLang(varMap, entry) {
         return function(key) {
             var lang = key === "_" ? "" : key,
-                value = DOM.format(entry[key], varMap);
+                value = DOM.format(entry[key], varMap || {});
 
             return "<span data-i18n=\"" + lang + "\">" + value + "</span>";
         };

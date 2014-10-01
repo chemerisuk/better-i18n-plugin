@@ -35,14 +35,14 @@ Now for web pages where `<html lang="ru">` button displays `"Привет мир
 You can specify variables via declaring `{param}` in your strings:
 
 ```js
-button.set( DOM.i18n("Hello {user}").toString({user: "Maksim"}) );
+button.set( DOM.i18n("Hello {user}", {user: "Maksim"}) );
 // displays "Hello Maksim"
 ```
 
 For a more compact syntax you can use arrays:
 
 ```js
-button.set( DOM.i18n("Hello {0}").toString(["Maksim"]) );
+button.set( DOM.i18n("Hello {0}", ["Maksim"]) );
 // displays "Hello Maksim"
 ```
 
