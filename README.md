@@ -1,7 +1,18 @@
 # better-i18n<br>[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][fury-image]][fury-url]
 > Internationalization plugin for [better-dom](https://github.com/chemerisuk/better-dom)
 
+The project aims to solve an internationalization problem __on front-end side__. The technique used behind the scenes I call “CSS-driven internationalization” and there is a [deep article](http://www.smashingmagazine.com/2014/06/23/css-driven-internationalization-in-javascript/) about it.
+
 _This project is still early alpha_
+
+## Features
+
+* does not require initionalization calls on initial page load
+* dynamic language changing via the `lang` attribute
+* ability to change language on a subset of DOM elements
+* HTML strings support
+
+NOTE: currently the project can't localize empty DOM elements or attribute values
 
 ## Installing
 Use [bower](http://bower.io/) to download this extension with all required dependencies.
@@ -22,7 +33,7 @@ Then append the following scripts on your page:
 Let's say we need to localise `"Hello world"` string to support multiple languages. All you need to do in your code is just to use `DOM.i18n` and set it as a `innerHTML` value:
 
 ```js
-button.set(DOM.i18n("Hello world"));
+button.set( DOM.i18n("Hello world") );
 ```
 
 If you need to add a support for a new language just register it. For example let's translate the string for the Russian web pages:
