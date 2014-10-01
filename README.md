@@ -16,30 +16,34 @@ Then append the following scripts on your page:
 ```
 
 ## Usage
-`DOM.importStrings` is used to register localized strings for a specific language. So the line below is used to make `"Hello World!"` strings to be `"Привет мир!"` on Russian-speaking web pages:
+
+Let's say we need to localise `"Hello world"` string to support multiple languages. All you need to do in your code is just to use `DOM.i18n` and set it as a `innerHTML` value:
 
 ```js
-DOM.importStrings("ru",  "Hello World!", "Привет мир!");
+button.set(DOM.i18n("Hello world"));
 ```
 
-Whenever an element has a text string that varies depending on user language - use `$Element#i18n` with English form of the string. English strings have role of keys: 
+If you need to add a support for a new language just register it. For example let's translate the string for the Russian web pages:
 
 ```js
-label.i18n("Hello World!"); // displays "Hello World!"
-label.set("lang", "ru");    // now it displays "Привет мир!"
+DOM.importStrings("ru", "Hello world", "Привет мир");
 ```
+
+Now for web pages where `<html lang="ru">` button displays `"Привет мир"`.
 
 ### Variables support
-You can specify variables via `{param}`:
+You can specify variables via declaring `{param}` in your strings:
 
 ```js
-label.i18n("Hello {user}", {user: "Maksim"}); // displays "Hello Maksim"
+button.set( DOM.i18n("Hello {user}").toString({user: "Maksim"}) );
+// displays "Hello Maksim"
 ```
 
 For a more compact syntax you can use arrays:
 
 ```js
-label.i18n("Hello {0}", ["Maksim"]); // displays "Hello Maksim"
+button.set( DOM.i18n("Hello {0}").toString(["Maksim"]) );
+// displays "Hello Maksim"
 ```
 
 ## Browser support
