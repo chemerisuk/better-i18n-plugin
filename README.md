@@ -1,7 +1,7 @@
 # better-i18n<br>[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][fury-image]][fury-url]
 > Internationalization plugin for [better-dom](https://github.com/chemerisuk/better-dom)
 
-The project aims to solve an internationalization problem __on front-end side__. The technique used behind the scenes I call “CSS-driven internationalization” and there is a [deep article](http://www.smashingmagazine.com/2014/06/23/css-driven-internationalization-in-javascript/) about it.
+The project aims to solve the internationalization problem __on front-end side__. The technique used behind the scenes I call “CSS-driven internationalization” and there is a [deep article](http://www.smashingmagazine.com/2014/06/23/css-driven-internationalization-in-javascript/) about it.
 
 _This project is still early alpha_
 
@@ -30,7 +30,7 @@ Then append the following scripts on your page:
 
 ## Usage
 
-Let's say we need to localise `"Hello world"` string to support multiple languages. All you need to do in your code is just to use `DOM.i18n` and set it as a `innerHTML` value:
+Let's say we need to localize `"Hello world"` string to support multiple languages. All you need to do in your code is just to use `DOM.i18n` and set it as a `innerHTML` value:
 
 ```js
 button.set( DOM.i18n("Hello world") );
@@ -65,7 +65,7 @@ button.set( DOM.i18n("Hello {0}", ["Maksim"]) );
 * Safari 6.0+
 * Firefox 16+
 * Opera 12.10+
-* Internet Explorer 8+
+* Internet Explorer 8+ (see [notes](https://github.com/chemerisuk/better-dom#notes-about-old-ies))
 
 #### Mobile
 * iOS Safari 6+

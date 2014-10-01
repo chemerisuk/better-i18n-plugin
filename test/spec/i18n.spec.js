@@ -26,26 +26,26 @@ describe("i18n", function() {
     });
 
     it("should support variables early", function() {
-            var expectedHTML = '<span data-i18n="">' + randomString + '</span>';
+        var expectedHTML = '<span data-i18n="">' + randomString + '</span>';
 
-            entry = DOM.i18n(randomString, ["abc"]);
-            expect(entry.toString()).toBe(expectedHTML);
+        entry = DOM.i18n(randomString, ["abc"]);
+        expect(entry.toString()).toBe(expectedHTML);
 
-            entry = DOM.i18n(randomString, {value: "123"});
-            expect(entry.toString()).toBe(expectedHTML);
+        entry = DOM.i18n(randomString, {value: "123"});
+        expect(entry.toString()).toBe(expectedHTML);
 
-            entry = DOM.i18n("test {0}", ["abc"]);
-            expect(entry.toString()).toBe('<span data-i18n="ru">abc ru_test</span><span data-i18n="">test abc</span>');
+        entry = DOM.i18n("test {0}", ["abc"]);
+        expect(entry.toString()).toBe('<span data-i18n="ru">abc ru_test</span><span data-i18n="">test abc</span>');
 
-            entry = DOM.i18n("test {0}", {value: "123"});
-            expect(entry.toString()).toBe('<span data-i18n="ru">{0} ru_test</span><span data-i18n="">test {0}</span>');
+        entry = DOM.i18n("test {0}", {value: "123"});
+        expect(entry.toString()).toBe('<span data-i18n="ru">{0} ru_test</span><span data-i18n="">test {0}</span>');
 
-            entry = DOM.i18n("test {value}", ["abc"]);
-            expect(entry.toString()).toBe('<span data-i18n="ru">ru_test {value}</span><span data-i18n="">test {value}</span>');
+        entry = DOM.i18n("test {value}", ["abc"]);
+        expect(entry.toString()).toBe('<span data-i18n="ru">ru_test {value}</span><span data-i18n="">test {value}</span>');
 
-            entry = DOM.i18n("test {value}", {value: "123"});
-            expect(entry.toString()).toBe('<span data-i18n="ru">ru_test 123</span><span data-i18n="">test 123</span>');
-        });
+        entry = DOM.i18n("test {value}", {value: "123"});
+        expect(entry.toString()).toBe('<span data-i18n="ru">ru_test 123</span><span data-i18n="">test 123</span>');
+    });
 
     describe("toString", function() {
         it("should be overriden", function() {

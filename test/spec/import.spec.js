@@ -11,12 +11,14 @@ describe("DOM.importStrings", function(){
         var importSpy = spyOn(DOM, "importStyles");
 
         DOM.importStrings("en", randomString, "");
-        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-i18n]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith("[data-i18n='en']", "display:none");
         expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-i18n='en']", "display:inline");
+        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-i18n='en'] ~ [data-i18n]", "display:none");
 
         DOM.importStrings("fr", randomString, "");
-        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-i18n]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith("[data-i18n='fr']", "display:none");
         expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-i18n='fr']", "display:inline");
+        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-i18n='fr'] ~ [data-i18n]", "display:none");
     });
 
     it("should support key/value map as argument", function() {

@@ -13,7 +13,14 @@
                 langIndex = languages.push(lang) - 1;
 
                 // add global rules to to able to switch to new language
-                populateRules(lang);
+                var prefix = ":lang(" + lang + ") > ";
+
+                // by default localized strings should be hidden
+                DOM.importStyles("[data-i18n='" + lang + "']", "display:none");
+                // ... except current page language is appropriate
+                DOM.importStyles(prefix + "[data-i18n='" + lang + "']", "display:inline");
+                // ... in such case hide default string as well
+                DOM.importStyles(prefix + "[data-i18n='" + lang + "'] ~ [data-i18n]", "display:none");
             }
 
             if (!strings[key]) strings[key] = [];
@@ -33,22 +40,12 @@
         return new Entry(key, varMap);
     };
 
-    function populateRules(lang) {
-        var prefix = lang ? ":lang(" + lang + ") > " : "";
-
-        DOM.importStyles(prefix + "[data-i18n]", "display:none");
-        DOM.importStyles(prefix + "[data-i18n='" + lang + "']", "display:inline");
-    }
-
-    // by default just show data-i18n attribute value
-    populateRules("");
-
     // helper functions
 
     function Entry(key, varMap) {
         languages.forEach(populateLang(key, varMap, this));
 
-        this._ = DOM.format(key, varMap || {});
+        this._ = DOM.format(key, varMap);
     }
 
     Entry.prototype.toString = function(varMap) {
@@ -66,7 +63,7 @@
 
         return function(lang, index) {
             if (index in record) {
-                entry[lang] = DOM.format(record[index], varMap || {});
+                entry[lang] = DOM.format(record[index], varMap);
             }
         };
     }
@@ -74,7 +71,7 @@
     function formatLang(varMap, entry) {
         return function(key) {
             var lang = key === "_" ? "" : key,
-                value = DOM.format(entry[key], varMap || {});
+                value = DOM.format(entry[key], varMap);
 
             return "<span data-i18n=\"" + lang + "\">" + value + "</span>";
         };

@@ -7,11 +7,23 @@
     <script src="src/better-i18n.js"></script>
 </head>
 <body>
-    <h2>Simple test</h2>
+    <p>Choose page language:
+        <select onchange="DOM.set('lang', this.value)">
+            <option value="">Default</option>
+            <option value="ru">Russian</option>
+        </select>
+    </p>
+    <h2>Simple value test</h2>
     <button class="simple-test"></button>
     <script>
     DOM.importStrings("ru", "hello", "привет");
-    DOM.find(".simple-test").set(DOM.i18n("hello").toString());
+    DOM.find(".simple-test").set(DOM.i18n("hello"));
+    </script>
+
+    <h2>Default value test</h2>
+    <button class="default-test"></button>
+    <script>
+    DOM.find(".default-test").set(DOM.i18n("default"));
     </script>
 </body>
 </html>
