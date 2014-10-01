@@ -48,7 +48,7 @@ label.i18n("Hello {0}", ["Maksim"]); // displays "Hello Maksim"
 * Safari 6.0+
 * Firefox 16+
 * Opera 12.10+
-* Internet Explorer 8+ (see [notes](https://github.com/chemerisuk/better-dom#notes-about-old-ies))
+* Internet Explorer 8+
 
 #### Mobile
 * iOS Safari 6+

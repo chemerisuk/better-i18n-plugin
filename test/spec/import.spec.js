@@ -12,11 +12,11 @@ describe("DOM.importStrings", function(){
 
         DOM.importStrings("en", randomString, "");
         expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-i18n]", "display:none");
-        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-i18n=en]", "display:inline");
+        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-i18n='en']", "display:inline");
 
         DOM.importStrings("fr", randomString, "");
         expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-i18n]", "display:none");
-        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-i18n=fr]", "display:inline");
+        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-i18n='fr']", "display:inline");
     });
 
     it("should support key/value map as argument", function() {

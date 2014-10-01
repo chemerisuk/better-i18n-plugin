@@ -4,13 +4,6 @@
     var strings = {},
         languages = [];
 
-    /**
-     * Import global i18n string(s)
-     * @memberOf DOM
-     * @param {String}         lang    target language
-     * @param {String|Object}  key     english string to localize or key/value object
-     * @param {String}         value   localized string
-     */
     DOM.importStrings = function(lang, key, value) {
         var keyType = typeof key,
             langIndex = languages.indexOf(lang);
@@ -19,9 +12,8 @@
             if (langIndex === -1) {
                 langIndex = languages.push(lang) - 1;
 
-                // add global rule for the data-i18n-{lang} attribute
-                DOM.importStyles(":lang(" + lang + ") > [data-i18n]", "display:none");
-                DOM.importStyles(":lang(" + lang + ") > [data-i18n=" + lang + "]", "display:inline");
+                // add global rules to to able to switch to new language
+                populateRules(lang);
             }
 
             if (!strings[key]) strings[key] = [];
@@ -41,6 +33,11 @@
         return new Entry(key);
     };
 
+    // by default just show data-i18n attribute value
+    populateRules("");
+
+    // helper functions
+
     function Entry(key) {
         languages.forEach(populateLang(key, this));
 
@@ -57,27 +54,29 @@
         return lang in this ? this[lang] : this._;
     };
 
-    function populateLang(key, obj) {
+    function populateLang(key, entry) {
         var record = strings[key] || {};
 
         return function(lang, index) {
             if (index in record) {
-                obj[lang] = record[index];
+                entry[lang] = record[index];
             }
         };
     }
 
-    function formatLang(varMap, obj) {
+    function formatLang(varMap, entry) {
         return function(key) {
             var lang = key === "_" ? "" : key,
-                value = DOM.format(obj[key], varMap);
+                value = DOM.format(entry[key], varMap);
 
             return "<span data-i18n=\"" + lang + "\">" + value + "</span>";
         };
     }
 
-    // by default just show data-i18n attribute value
-    DOM.importStyles("[data-i18n]", "display:none");
-    DOM.importStyles("[data-i18n='']", "display:inline");
+    function populateRules(lang) {
+        var prefix = lang ? ":lang(" + lang + ") > " : "";
 
+        DOM.importStyles(prefix + "[data-i18n]", "display:none");
+        DOM.importStyles(prefix + "[data-i18n='" + lang + "']", "display:inline");
+    }
 }(window.DOM));
