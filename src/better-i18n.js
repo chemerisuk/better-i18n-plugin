@@ -33,6 +33,13 @@
         return new Entry(key, varMap);
     };
 
+    function populateRules(lang) {
+        var prefix = lang ? ":lang(" + lang + ") > " : "";
+
+        DOM.importStyles(prefix + "[data-i18n]", "display:none");
+        DOM.importStyles(prefix + "[data-i18n='" + lang + "']", "display:inline");
+    }
+
     // by default just show data-i18n attribute value
     populateRules("");
 
@@ -71,12 +78,5 @@
 
             return "<span data-i18n=\"" + lang + "\">" + value + "</span>";
         };
-    }
-
-    function populateRules(lang) {
-        var prefix = lang ? ":lang(" + lang + ") > " : "";
-
-        DOM.importStyles(prefix + "[data-i18n]", "display:none");
-        DOM.importStyles(prefix + "[data-i18n='" + lang + "']", "display:inline");
     }
 }(window.DOM));

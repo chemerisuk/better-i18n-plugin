@@ -1,6 +1,8 @@
 # better-i18n<br>[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][fury-image]][fury-url]
 > Internationalization plugin for [better-dom](https://github.com/chemerisuk/better-dom)
 
+_This project is still early alpha_
+
 ## Installing
 Use [bower](http://bower.io/) to download this extension with all required dependencies.
 
@@ -29,7 +31,7 @@ If you need to add a support for a new language just register it. For example le
 DOM.importStrings("ru", "Hello world", "Привет мир");
 ```
 
-Now for web pages where `<html lang="ru">` button displays `"Привет мир"`.
+Now for web pages where `<html lang="ru">` the button displays `"Привет мир"`.
 
 ### Variables support
 You can specify variables via declaring `{param}` in your strings:
