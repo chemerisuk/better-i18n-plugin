@@ -3,16 +3,14 @@
 
 The project aims to solve the internationalization problem __on front-end side__. The technique used behind the scenes I call “CSS-driven internationalization” and there is a [deep article](http://www.smashingmagazine.com/2014/06/23/css-driven-internationalization-in-javascript/) about it.
 
-_This project is still early alpha_
-
 ## Features
 
 * does not require initionalization calls on initial page load
-* dynamic language changing via the `lang` attribute
+* change current language using the `lang` attribute
 * ability to change language on a subset of DOM elements
-* HTML strings support
+* supports localization of HTML strings
 
-NOTE: currently the project can't localize empty DOM elements or attribute values
+NOTE: currently the project can't localize empty DOM elements (like `<input>`, `<select>` etc.) or attribute values.
 
 ## Installing
 Use [bower](http://bower.io/) to download this extension with all required dependencies.
@@ -30,19 +28,19 @@ Then append the following scripts on your page:
 
 ## Usage
 
-Let's say we need to localize `"Hello world"` string to support multiple languages. All you need to do in your code is just to use `DOM.i18n` and set it as a `innerHTML` value:
+Let's say you need to localize a button to support multiple languages. In this case you can use `DOM.i18n` with appropriate string and set it as a `innerHTML`:
 
 ```js
 button.set( DOM.i18n("Hello world") );
 ```
 
-If you need to add a support for a new language just register it. For example let's translate the string for the Russian web pages:
+When you need to add a support for a new language just import a localized version of the string. For example the string in Russian:
 
 ```js
 DOM.importStrings("ru", "Hello world", "Привет мир");
 ```
 
-Now for web pages where `<html lang="ru">` the button displays `"Привет мир"`.
+Now for web pages where `<html lang="ru">` the button displays `"Привет мир"` instead of `"Hello world"`. 
 
 ### Variables support
 You can specify variables via declaring `{param}` in your strings:
@@ -58,6 +56,7 @@ For a more compact syntax you can use arrays:
 button.set( DOM.i18n("Hello {0}", ["Maksim"]) );
 // displays "Hello Maksim"
 ```
+
 
 ## Browser support
 #### Desktop
