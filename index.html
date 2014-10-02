@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>better-i18n test page</title>
+    <script src="bower_components/better-dom/dist/better-dom.js"></script>
+    <script src="src/better-i18n.js"></script>
+</head>
+<body>
+    <p>Choose page language:
+        <select onchange="DOM.set('lang', this.value)">
+            <option value="">Default</option>
+            <option value="ru">Russian</option>
+        </select>
+    </p>
+    <h2>Simple value test</h2>
+    <button class="simple-test"></button>
+    <script>
+    DOM.importStrings("ru", "hello", "привет");
+    DOM.find(".simple-test").set(DOM.i18n("hello"));
+    </script>
+
+    <h2>Non-localized value test</h2>
+    <button class="unlocalized-test"></button>
+    <script>
+    DOM.find(".unlocalized-test").set(DOM.i18n("unlocalized"));
+    </script>
+</body>
+</html>
