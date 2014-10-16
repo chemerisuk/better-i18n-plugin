@@ -1,4 +1,4 @@
-# better-i18n<br>[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][fury-image]][fury-url]
+# better-i18n-plugin<br>[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][fury-image]][fury-url]
 > Internationalization plugin for [better-dom](https://github.com/chemerisuk/better-dom)
 
 The project aims to solve the internationalization problem __on front-end side__. The technique used behind the scenes I call “CSS-driven internationalization” and there is a [deep article](http://www.smashingmagazine.com/2014/06/23/css-driven-internationalization-in-javascript/) about it.
@@ -15,15 +15,15 @@ NOTE: currently the project can't localize empty DOM elements (like `<input>`, `
 ## Installing
 Use [bower](http://bower.io/) to download this extension with all required dependencies.
 
-    bower install better-i18n
+    bower install better-i18n-plugin
 
-This will clone the latest version of the __better-i18n__ into the `bower_components` directory at the root of your project.
+This will clone the latest version of the __better-i18n-plugin__ into the `bower_components` directory at the root of your project.
 
 Then append the following scripts on your page:
 
 ```html
 <script src="bower_components/better-dom/dist/better-dom.js"></script>
-<script src="bower_components/better-i18n/dist/better-i18n.js"></script>
+<script src="bower_components/better-i18n-plugin/dist/better-i18n-plugin.js"></script>
 ```
 
 ## Usage
@@ -71,11 +71,11 @@ button.set( DOM.i18n("Hello {0}", ["Maksim"]) );
 * Android 2.3+
 * Chrome for Android
 
-[travis-url]: http://travis-ci.org/chemerisuk/better-i18n
-[travis-image]: http://img.shields.io/travis/chemerisuk/better-i18n/master.svg
+[travis-url]: http://travis-ci.org/chemerisuk/better-i18n-plugin
+[travis-image]: http://img.shields.io/travis/chemerisuk/better-i18n-plugin/master.svg
 
-[coveralls-url]: https://coveralls.io/r/chemerisuk/better-i18n
-[coveralls-image]: http://img.shields.io/coveralls/chemerisuk/better-i18n/master.svg
+[coveralls-url]: https://coveralls.io/r/chemerisuk/better-i18n-plugin
+[coveralls-image]: http://img.shields.io/coveralls/chemerisuk/better-i18n-plugin/master.svg
 
-[fury-url]: http://badge.fury.io/bo/better-i18n
-[fury-image]: https://badge.fury.io/bo/better-i18n.svg
+[fury-url]: http://badge.fury.io/bo/better-i18n-plugin
+[fury-image]: https://badge.fury.io/bo/better-i18n-plugin.svg

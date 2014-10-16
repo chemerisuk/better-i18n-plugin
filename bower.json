@@ -1,15 +1,14 @@
 {
-  "name": "better-i18n",
+  "name": "better-i18n-plugin",
   "version": "1.0.0-rc.1",
   "main": [
-    "dist/better-i18n.js"
+    "dist/better-i18n-plugin.js"
   ],
   "ignore": [
     ".*",
     "src",
     "test",
     "index.html",
-    "Gruntfile.js",
     "package.json",
     "bower.json"
   ],
