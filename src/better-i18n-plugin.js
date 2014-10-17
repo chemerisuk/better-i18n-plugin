@@ -14,13 +14,12 @@
 
                 // add global rules to to able to switch to new language
                 var prefix = `:lang(${lang}) > `;
-
                 // by default localized strings should be hidden
                 DOM.importStyles(`[data-i18n="${lang}"]`, "display:none");
                 // ... except current page language is appropriate
-                DOM.importStyles(prefix + `[data-i18n="${lang}"]`, "display:inline");
+                DOM.importStyles(`${prefix}[data-i18n="${lang}"]`, "display:inline");
                 // ... in such case hide default string as well
-                DOM.importStyles(prefix + `[data-i18n="${lang}"] ~ [data-i18n]`, "display:none");
+                DOM.importStyles(`${prefix}[data-i18n="${lang}"] ~ [data-i18n]`, "display:none");
             }
 
             if (!strings[key]) strings[key] = [];
@@ -42,7 +41,7 @@
         languages.forEach(populateLang(key, varMap, this));
 
         this._ = DOM.format(key, varMap);
-    };
+    }
 
     Entry.prototype = {
         toString(varMap) {
