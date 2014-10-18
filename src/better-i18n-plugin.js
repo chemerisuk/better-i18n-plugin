@@ -34,6 +34,19 @@
         }
     };
 
+    DOM.extend("*", {
+        l10n(key, varMap) {
+            var entry = new Entry(key, varMap),
+                keys = Object.keys(entry).sort((k) => k === "_" ? 1 : -1);
+
+            return this.set(keys.map((key) => {
+                var attrValue = key === "_" ? "" : key;
+
+                return `<span data-l10n="${attrValue}">${entry[key]}</span>`;
+            }).join(""));
+        }
+    });
+
     DOM.__ = (key, varMap) => new Entry(key, varMap);
 
     function Entry(key, varMap) {
@@ -60,17 +73,5 @@
 
     Entry.prototype.toLocaleString = function(lang) {
         return lang ? this[lang] || this._ : this.toString();
-    };
-
-    Entry.prototype.l10n = function() {
-        var result = "";
-
-        Object.keys(this).forEach((key) => {
-            var attrValue = key === "_" ? "" : key;
-
-            result += `<span data-l10n="${attrValue}">${this[key]}</span>`;
-        });
-
-        return result;
     };
 }(window.DOM));

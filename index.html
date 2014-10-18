@@ -20,13 +20,13 @@
     <button class="simple-test"></button>
     <script>
     DOM.importStrings("ru", "hello", "привет");
-    DOM.find(".simple-test").set(DOM.__("hello").l10n());
+    DOM.find(".simple-test").l10n("hello");
     </script>
 
     <h2>Non-localized value test</h2>
     <button class="unlocalized-test"></button>
     <script>
-    DOM.find(".unlocalized-test").set(DOM.__("unlocalized").l10n());
+    DOM.find(".unlocalized-test").l10n("unlocalized");
     </script>
 </body>
 </html>
