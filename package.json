@@ -4,6 +4,7 @@
   "version": "1.0.0-rc.2",
   "author": "Maksim Chemerisuk",
   "license": "MIT",
+  "homepage": "https://github.com/chemerisuk/better-i18n-plugin",
   "repository": {
     "type": "git",
     "url": "https://github.com/chemerisuk/better-i18n-plugin"

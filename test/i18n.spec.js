@@ -1,6 +1,6 @@
 /* jshint quotmark: false */
 
-describe("i18n", function() {
+describe("__", function() {
     "use strict";
 
     var entry, randomString;
@@ -18,81 +18,65 @@ describe("i18n", function() {
     DOM.importStrings("ru", "test {value}", "ru_test {value}");
 
     it("should return an Entry object", function() {
-        entry = DOM.i18n(randomString);
+        entry = DOM.__(randomString);
         expect(JSON.stringify(entry)).toEqual(JSON.stringify({_: randomString}));
 
-        entry = DOM.i18n("test");
+        entry = DOM.__("test");
         expect(JSON.stringify(entry)).toEqual(JSON.stringify({ru: "ru_test", _: "test"}));
-    });
-
-    it("should support variables early", function() {
-        var expectedHTML = '<span data-i18n="">' + randomString + '</span>';
-
-        entry = DOM.i18n(randomString, ["abc"]);
-        expect(entry.toString()).toBe(expectedHTML);
-
-        entry = DOM.i18n(randomString, {value: "123"});
-        expect(entry.toString()).toBe(expectedHTML);
-
-        entry = DOM.i18n("test {0}", ["abc"]);
-        expect(entry.toString()).toBe('<span data-i18n="ru">abc ru_test</span><span data-i18n="">test abc</span>');
-
-        entry = DOM.i18n("test {0}", {value: "123"});
-        expect(entry.toString()).toBe('<span data-i18n="ru">{0} ru_test</span><span data-i18n="">test {0}</span>');
-
-        entry = DOM.i18n("test {value}", ["abc"]);
-        expect(entry.toString()).toBe('<span data-i18n="ru">ru_test {value}</span><span data-i18n="">test {value}</span>');
-
-        entry = DOM.i18n("test {value}", {value: "123"});
-        expect(entry.toString()).toBe('<span data-i18n="ru">ru_test 123</span><span data-i18n="">test 123</span>');
     });
 
     describe("toString", function() {
         it("should be overriden", function() {
-            entry = DOM.i18n(randomString);
-            expect(entry.toString()).toBe('<span data-i18n="">' + randomString + '</span>');
+            entry = DOM.__(randomString);
+            expect(entry.toString()).toBe(randomString);
 
-            entry = DOM.i18n("test");
-            expect(entry.toString()).toBe('<span data-i18n="ru">ru_test</span><span data-i18n="">test</span>');
+            entry = DOM.__("test");
+            expect(entry.toString()).toBe("test");
+            expect(entry.toString("ru")).toBe("ru_test");
+
+            DOM.set("lang", "ru");
+            expect(entry.toString()).toBe("ru_test");
+            expect(entry.toString("ru")).toBe("ru_test");
+        });
+
+        it("should use current language by default", function() {
+            entry = DOM.__("test");
+            expect(entry.toString()).toBe("test");
+
+            DOM.set("lang", "ru");
+            expect(entry.toString()).toBe("ru_test");
+        });
+    });
+
+    describe("toHTMLString", function() {
+        it("should be overriden", function() {
+            entry = DOM.__(randomString);
+            expect(entry.toHTMLString()).toBe('<span data-i18n="">' + randomString + '</span>');
+
+            entry = DOM.__("test");
+            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">ru_test</span><span data-i18n="">test</span>');
         });
 
         it("should support variables", function() {
             var expectedHTML = '<span data-i18n="">' + randomString + '</span>';
 
-            entry = DOM.i18n(randomString);
-            expect(entry.toString(["abc"])).toBe(expectedHTML);
-            expect(entry.toString({value: "123"})).toBe(expectedHTML);
+            entry = DOM.__(randomString, ["abc"]);
+            expect(entry.toHTMLString()).toBe(expectedHTML);
 
-            entry = DOM.i18n("test {0}");
-            expect(entry.toString(["abc"])).toBe('<span data-i18n="ru">abc ru_test</span><span data-i18n="">test abc</span>');
-            expect(entry.toString({value: "123"})).toBe('<span data-i18n="ru">{0} ru_test</span><span data-i18n="">test {0}</span>');
+            entry = DOM.__(randomString, {value: "123"});
+            expect(entry.toHTMLString()).toBe(expectedHTML);
 
-            entry = DOM.i18n("test {value}");
-            expect(entry.toString(["abc"])).toBe('<span data-i18n="ru">ru_test {value}</span><span data-i18n="">test {value}</span>');
-            expect(entry.toString({value: "123"})).toBe('<span data-i18n="ru">ru_test 123</span><span data-i18n="">test 123</span>');
-        });
-    });
+            entry = DOM.__("test {0}", ["abc"]);
+            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">abc ru_test</span><span data-i18n="">test abc</span>');
 
-    describe("toLocaleString", function() {
-        it("should be overriden", function() {
-            entry = DOM.i18n(randomString);
-            expect(entry.toLocaleString()).toBe(randomString);
+            entry = DOM.__("test {0}", {value: "123"});
+            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">{0} ru_test</span><span data-i18n="">test {0}</span>');
 
-            entry = DOM.i18n("test");
-            expect(entry.toLocaleString()).toBe("test");
-            expect(entry.toLocaleString("ru")).toBe("ru_test");
+            entry = DOM.__("test {value}", ["abc"]);
+            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">ru_test {value}</span><span data-i18n="">test {value}</span>');
 
-            DOM.set("lang", "ru");
-            expect(entry.toLocaleString()).toBe("ru_test");
-            expect(entry.toLocaleString("ru")).toBe("ru_test");
-        });
-
-        it("should use current language by default", function() {
-            entry = DOM.i18n("test");
-            expect(entry.toLocaleString()).toBe("test");
-
-            DOM.set("lang", "ru");
-            expect(entry.toLocaleString()).toBe("ru_test");
+            entry = DOM.__("test {value}", {value: "123"});
+            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">ru_test 123</span><span data-i18n="">test 123</span>');
         });
     });
 });

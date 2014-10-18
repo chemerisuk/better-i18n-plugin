@@ -35,44 +35,41 @@
         }
     };
 
-    DOM.i18n = (key, varMap) => new Entry(key, varMap);
+    DOM.__ = (key, varMap) => new Entry(key, varMap);
 
     function Entry(key, varMap) {
-        languages.forEach(populateLang(key, varMap, this));
+        var record = strings[key] || {};
 
-        this._ = DOM.format(key, varMap);
+        languages.forEach((lang, index) => {
+            var value = record[index];
+
+            if (value) {
+                if (varMap) value = DOM.format(value, varMap);
+
+                this[lang] = value;
+            }
+        });
+
+        this._ = varMap ? DOM.format(key, varMap) : key;
     }
 
     Entry.prototype = {
-        toString(varMap) {
-            return Object.keys(this).map(formatLang(varMap, this)).join("");
-        },
-
-        toLocaleString(lang) {
+        toString(lang) {
             if (!lang) lang = DOM.get("lang");
 
-            return lang in this ? this[lang] : this._;
+            return this[lang] || this._;
+        },
+
+        toHTMLString() {
+            var result = "";
+
+            Object.keys(this).forEach((key) => {
+                var lang = key === "_" ? "" : key;
+
+                result += `<span data-i18n="${lang}">${this[key]}</span>`;
+            });
+
+            return result;
         }
     };
-
-    // helper functions
-
-    function populateLang(key, varMap, entry) {
-        var record = strings[key] || {};
-
-        return (lang, index) => {
-            if (index in record) {
-                entry[lang] = DOM.format(record[index], varMap);
-            }
-        };
-    }
-
-    function formatLang(varMap, entry) {
-        return (key) => {
-            var lang = key === "_" ? "" : key,
-                value = DOM.format(entry[key], varMap);
-
-            return `<span data-i18n="${lang}">${value}</span>`;
-        };
-    }
 }(window.DOM));
