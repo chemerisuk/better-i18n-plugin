@@ -1,3 +1,4 @@
+/* jshint -W053 */
 (function(DOM) {
     "use strict";
 
@@ -53,25 +54,26 @@
         this._ = varMap ? DOM.format(key, varMap) : key;
     }
 
-    Entry.prototype = {
-        toString() {
-            return this[DOM.get("lang")] || this._;
-        },
+    // grab all methods from String.prototype
+    Entry.prototype = new String();
 
-        toLocaleString(lang) {
-            return lang ? this[lang] || this._ : this.toString();
-        },
+    Entry.prototype.toString = function() {
+        return this[DOM.get("lang")] || this._;
+    };
 
-        toHTMLString() {
-            var result = "";
+    Entry.prototype.toLocaleString = function(lang) {
+        return lang ? this[lang] || this._ : this.toString();
+    };
 
-            Object.keys(this).forEach((key) => {
-                var lang = key === "_" ? "" : key;
+    Entry.prototype.toHTMLString = function() {
+        var result = "";
 
-                result += `<span data-i18n="${lang}">${this[key]}</span>`;
-            });
+        Object.keys(this).forEach((key) => {
+            var lang = key === "_" ? "" : key;
 
-            return result;
-        }
+            result += `<span data-i18n="${lang}">${this[key]}</span>`;
+        });
+
+        return result;
     };
 }(window.DOM));

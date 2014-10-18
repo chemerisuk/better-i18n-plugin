@@ -25,6 +25,13 @@ describe("__", function() {
         expect(JSON.stringify(entry)).toEqual(JSON.stringify({ru: "ru_test", _: "test"}));
     });
 
+    it("grabs methods from String.prototype", function() {
+        entry = DOM.__(randomString);
+        expect(entry.split(",")).toEqual([randomString]);
+        expect(entry.substr(1)).toEqual(randomString.substr(1));
+        expect(entry.concat("foo")).toEqual(randomString + "foo");
+    });
+
     describe("toString", function() {
         it("should use current language by default", function() {
             entry = DOM.__("test");
