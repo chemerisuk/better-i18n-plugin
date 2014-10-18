@@ -1,7 +1,7 @@
 {
   "name": "better-i18n-plugin",
   "description": "Internationalization plugin for better-dom",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0",
   "author": "Maksim Chemerisuk",
   "license": "MIT",
   "homepage": "https://github.com/chemerisuk/better-i18n-plugin",

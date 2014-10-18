@@ -1,85 +1,84 @@
 /**
  * better-i18n-plugin: Internationalization plugin for better-dom
- * @version 1.0.0-rc.2 Fri, 17 Oct 2014 15:48:12 GMT
- * @link 
+ * @version 1.0.0 Sat, 18 Oct 2014 18:13:15 GMT
+ * @link https://github.com/chemerisuk/better-i18n-plugin
  * @copyright 2014 Maksim Chemerisuk
  * @license MIT
  */
+/* jshint -W053 */
 (function(DOM) {
     "use strict";
 
-    var strings = {},
+    var strings = [],
         languages = [];
 
     DOM.importStrings = function(lang, key, value) {
-        var keyType = typeof key,
-            langIndex = languages.indexOf(lang);
+        if (typeof lang !== "string") throw new TypeError("lang argument must be a string");
 
-        if (keyType === "string") {
-            if (langIndex === -1) {
-                langIndex = languages.push(lang) - 1;
+        var langIndex = languages.indexOf(lang),
+            stringsMap = strings[langIndex];
 
-                // add global rules to to able to switch to new language
-                var prefix = ((":lang(" + lang) + ") > ");
-                // by default localized strings should be hidden
-                DOM.importStyles((("[data-i18n=\"" + lang) + "\"]"), "display:none");
-                // ... except current page language is appropriate
-                DOM.importStyles((("" + prefix) + ("[data-i18n=\"" + lang) + "\"]"), "display:inline");
-                // ... in such case hide default string as well
-                DOM.importStyles((("" + prefix) + ("[data-i18n=\"" + lang) + "\"] ~ [data-i18n]"), "display:none");
-            }
+        if (langIndex === -1) {
+            langIndex = languages.push(lang) - 1;
+            strings[langIndex] = stringsMap = {};
 
-            if (!strings[key]) strings[key] = [];
+            // add global rules to to able to switch to new language
 
-            // store localized string internally
-            strings[key][langIndex] = value;
-        } else if (keyType === "object") {
-            Object.keys(key).forEach(function(x)  {
-                DOM.importStrings(lang, x, key[x]);
-            });
+            // by default localized strings should be hidden
+            DOM.importStyles((("[data-l10n=\"" + lang) + "\"]"), "display:none");
+            // ... except current page language is `lang`
+            DOM.importStyles(((":lang(" + lang) + (") > [data-l10n=\"" + lang) + "\"]"), "display:inline");
+            // ... in such case hide default value too
+            DOM.importStyles(((":lang(" + lang) + (") > [data-l10n=\"" + lang) + "\"] ~ [data-l10n]"), "display:none");
+        }
+
+        if (typeof key === "string") {
+            stringsMap[key] = value;
         } else {
-            throw TypeError("importStrings");
+            Object.keys(key).forEach(function(x)  {
+                stringsMap[x] = key[x];
+            });
         }
     };
 
-    DOM.i18n = function(key, varMap)  {return new Entry(key, varMap)};
+    DOM.extend("*", {
+        l10n: function(key, varMap) {
+            var entry = new Entry(key, varMap),
+                keys = Object.keys(entry).sort(function(k)  {return k === "_" ? 1 : -1});
 
-    function Entry(key, varMap) {
-        languages.forEach(populateLang(key, varMap, this));
+            return this.set(keys.map(function(key)  {
+                var attrValue = key === "_" ? "" : key;
 
-        this._ = DOM.format(key, varMap);
-    }
-
-    Entry.prototype = {
-        toString: function(varMap) {
-            return Object.keys(this).map(formatLang(varMap, this)).join("");
-        },
-
-        toLocaleString: function(lang) {
-            if (!lang) lang = DOM.get("lang");
-
-            return lang in this ? this[lang] : this._;
+                return (("<span data-l10n=\"" + attrValue) + ("\">" + (entry[key])) + "</span>");
+            }).join(""));
         }
-    };
+    });
 
-    // helper functions
+    DOM.__ = function(key, varMap)  {return new Entry(key, varMap)};
 
-    function populateLang(key, varMap, entry) {
-        var record = strings[key] || {};
+    function Entry(key, varMap) {var this$0 = this;
+        languages.forEach(function(lang, index)  {
+            var value = strings[index][key];
 
-        return function(lang, index)  {
-            if (index in record) {
-                entry[lang] = DOM.format(record[index], varMap);
+            if (value) {
+                if (varMap) value = DOM.format(value, varMap);
+
+                this$0[lang] = value;
             }
-        };
+        });
+
+        this._ = varMap ? DOM.format(key, varMap) : key;
     }
 
-    function formatLang(varMap, entry) {
-        return function(key)  {
-            var lang = key === "_" ? "" : key,
-                value = DOM.format(entry[key], varMap);
+    // grab all methods from String.prototype
+    Entry.prototype = new String();
+    Entry.prototype.constructor = Entry;
 
-            return (("<span data-i18n=\"" + lang) + ("\">" + value) + "</span>");
-        };
-    }
+    Entry.prototype.toString = function() {
+        return this[DOM.get("lang")] || this._;
+    };
+
+    Entry.prototype.toLocaleString = function(lang) {
+        return lang ? this[lang] || this._ : this.toString();
+    };
 }(window.DOM));
