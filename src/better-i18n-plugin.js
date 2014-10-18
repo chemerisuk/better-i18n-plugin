@@ -16,11 +16,11 @@
                 // add global rules to to able to switch to new language
                 var prefix = `:lang(${lang}) > `;
                 // by default localized strings should be hidden
-                DOM.importStyles(`[data-i18n="${lang}"]`, "display:none");
+                DOM.importStyles(`[data-l10n="${lang}"]`, "display:none");
                 // ... except current page language is appropriate
-                DOM.importStyles(`${prefix}[data-i18n="${lang}"]`, "display:inline");
+                DOM.importStyles(`${prefix}[data-l10n="${lang}"]`, "display:inline");
                 // ... in such case hide default string as well
-                DOM.importStyles(`${prefix}[data-i18n="${lang}"] ~ [data-i18n]`, "display:none");
+                DOM.importStyles(`${prefix}[data-l10n="${lang}"] ~ [data-l10n]`, "display:none");
             }
 
             if (!strings[key]) strings[key] = [];
@@ -56,6 +56,7 @@
 
     // grab all methods from String.prototype
     Entry.prototype = new String();
+    Entry.prototype.constructor = Entry;
 
     Entry.prototype.toString = function() {
         return this[DOM.get("lang")] || this._;
@@ -65,13 +66,13 @@
         return lang ? this[lang] || this._ : this.toString();
     };
 
-    Entry.prototype.toHTMLString = function() {
+    Entry.prototype.l10n = function() {
         var result = "";
 
         Object.keys(this).forEach((key) => {
             var lang = key === "_" ? "" : key;
 
-            result += `<span data-i18n="${lang}">${this[key]}</span>`;
+            result += `<span data-l10n="${lang}">${this[key]}</span>`;
         });
 
         return result;

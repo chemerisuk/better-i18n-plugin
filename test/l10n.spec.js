@@ -57,35 +57,35 @@ describe("__", function() {
         });
     });
 
-    describe("toHTMLString", function() {
+    describe("l10n", function() {
         it("should be overriden", function() {
             entry = DOM.__(randomString);
-            expect(entry.toHTMLString()).toBe('<span data-i18n="">' + randomString + '</span>');
+            expect(entry.l10n()).toBe('<span data-l10n="">' + randomString + '</span>');
 
             entry = DOM.__("test");
-            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">ru_test</span><span data-i18n="">test</span>');
+            expect(entry.l10n()).toBe('<span data-l10n="ru">ru_test</span><span data-l10n="">test</span>');
         });
 
         it("should support variables", function() {
-            var expectedHTML = '<span data-i18n="">' + randomString + '</span>';
+            var expectedHTML = '<span data-l10n="">' + randomString + '</span>';
 
             entry = DOM.__(randomString, ["abc"]);
-            expect(entry.toHTMLString()).toBe(expectedHTML);
+            expect(entry.l10n()).toBe(expectedHTML);
 
             entry = DOM.__(randomString, {value: "123"});
-            expect(entry.toHTMLString()).toBe(expectedHTML);
+            expect(entry.l10n()).toBe(expectedHTML);
 
             entry = DOM.__("test {0}", ["abc"]);
-            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">abc ru_test</span><span data-i18n="">test abc</span>');
+            expect(entry.l10n()).toBe('<span data-l10n="ru">abc ru_test</span><span data-l10n="">test abc</span>');
 
             entry = DOM.__("test {0}", {value: "123"});
-            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">{0} ru_test</span><span data-i18n="">test {0}</span>');
+            expect(entry.l10n()).toBe('<span data-l10n="ru">{0} ru_test</span><span data-l10n="">test {0}</span>');
 
             entry = DOM.__("test {value}", ["abc"]);
-            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">ru_test {value}</span><span data-i18n="">test {value}</span>');
+            expect(entry.l10n()).toBe('<span data-l10n="ru">ru_test {value}</span><span data-l10n="">test {value}</span>');
 
             entry = DOM.__("test {value}", {value: "123"});
-            expect(entry.toHTMLString()).toBe('<span data-i18n="ru">ru_test 123</span><span data-i18n="">test 123</span>');
+            expect(entry.l10n()).toBe('<span data-l10n="ru">ru_test 123</span><span data-l10n="">test 123</span>');
         });
     });
 });

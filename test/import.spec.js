@@ -11,14 +11,14 @@ describe("DOM.importStrings", function(){
         var importSpy = spyOn(DOM, "importStyles");
 
         DOM.importStrings("en", randomString, "");
-        expect(importSpy).toHaveBeenCalledWith("[data-i18n=\"en\"]", "display:none");
-        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-i18n=\"en\"]", "display:inline");
-        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-i18n=\"en\"] ~ [data-i18n]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith("[data-l10n=\"en\"]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-l10n=\"en\"]", "display:inline");
+        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-l10n=\"en\"] ~ [data-l10n]", "display:none");
 
         DOM.importStrings("fr", randomString, "");
-        expect(importSpy).toHaveBeenCalledWith("[data-i18n=\"fr\"]", "display:none");
-        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-i18n=\"fr\"]", "display:inline");
-        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-i18n=\"fr\"] ~ [data-i18n]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith("[data-l10n=\"fr\"]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-l10n=\"fr\"]", "display:inline");
+        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-l10n=\"fr\"] ~ [data-l10n]", "display:none");
     });
 
     it("should support key/value map as argument", function() {
@@ -34,11 +34,11 @@ describe("DOM.importStrings", function(){
 
     //     jasmine.sandbox.set(link);
 
-    //     link.i18n(randomString).set("en");
-    //     expect(link.get("data-i18n-en")).toBeNull();
+    //     link.l10n(randomString).set("en");
+    //     expect(link.get("data-l10n-en")).toBeNull();
 
     //     DOM.importStrings("en", randomString, "test");
-    //     expect(link.get("data-i18n-en")).toBe("test");
+    //     expect(link.get("data-l10n-en")).toBe("test");
     // });
 
     it("should throw error if arguments are invalid", function() {
