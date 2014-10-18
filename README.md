@@ -5,10 +5,10 @@ The project aims to solve the internationalization problem __on front-end side__
 
 ## Features
 
-* does not require initionalization calls on initial page load
+* no initionalization calls on initial page load
 * change current language using the `lang` attribute
-* ability to change language on a subset of DOM elements
-* supports localization of HTML strings
+* ability to change language on a DOM subtree
+* supports HTML markup in localized strings
 
 NOTE: currently the project can't localize empty DOM elements (like `<input>`, `<select>` etc.) or attribute values.
 
@@ -26,12 +26,42 @@ Then append the following scripts on your page:
 <script src="bower_components/better-i18n-plugin/dist/better-i18n-plugin.js"></script>
 ```
 
-## Usage
-
-Let's say you need to localize a button to support multiple languages. In this case you can use `DOM.i18n` with appropriate string and set it as a `innerHTML`:
+## Localization on front-end
+The plugin introduces 2 new static functions for the `DOM` namespace: `DOM.importStrings` and `DOM.__`. The first one is used to populate DOM with new localizations for a particular language:
 
 ```js
-button.set( DOM.i18n("Hello world") );
+DOM.importStrings("ru", "Enter your name", "Введите ваше имя");
+// you can populate many strings in one call
+DOM.importStrings("ru", {
+    "string 1": "translation 1",
+    "string 2": "translation 2"
+    ...
+});
+```
+
+This storage is private therefore you can't access to it directly. Intstead you can use `DOM.__`:
+
+```js
+alert(DOM.__("Enter your name")); // shows "Enter your name"
+// change current language...
+DOM.set("lang", "ru");
+
+alert(DOM.__("Enter your name")); // shows "Введите ваше имя"
+```
+
+Function `DOM.__` can accept extra parameter `varMap` with variables used in the key string:
+
+```js
+DOM.__("your {name}", {name: "Maksim"}); // => "your Maksim"
+// arrays are supported too
+DOM.__("your {0}", ["Maksim"]);          // => "your Maksim"
+```
+
+## Usage with DOM elements
+Let's say you need to localize a button to support multiple languages. In this case you can just use `$Element#l10n`:
+
+```js
+button.l10n("Hello world");
 ```
 
 When you need to add a support for a new language just import a localized version of the string. For example the string in Russian:
@@ -42,21 +72,46 @@ DOM.importStrings("ru", "Hello world", "Привет мир");
 
 Now for web pages where `<html lang="ru">` the button displays `"Привет мир"` instead of `"Hello world"`. 
 
-### Variables support
-You can specify variables via declaring `{param}` in your strings:
+Also you can specify variables via declaring `{param}` in your strings:
 
 ```js
-button.set( DOM.i18n("Hello {user}", {user: "Maksim"}) );
+button.l10n("Hello {user}", {user: "Maksim"});
 // displays "Hello Maksim"
 ```
 
-For a more compact syntax you can use arrays:
+For a more compact syntax arrays are supported too:
 
 ```js
-button.set( DOM.i18n("Hello {0}", ["Maksim"]) );
+button.l10n("Hello {0}", ["Maksim"]);
 // displays "Hello Maksim"
 ```
 
+## Integration with backend
+Often you need to grab localized strings from backend. This is very easy to do using `DOM.importStrings`. In the example below I'll use [Handlebars](http://handlebarsjs.com) as a templating language and [i18n-node](https://github.com/mashpie/i18n-node).
+
+Assuming you have stored the target locale in `res.locals.locale`, just add another variable that will store all strings as a result of `JSON.stringify` call:
+
+```js
+res.locals.catalog = JSON.stringify(i18n.getCatalog(res.locals.locale));
+```
+
+After that just add extra `script` element that will populate all those data:
+
+```html
+<!DOCTYPE html>
+<html lang="{{locale}}">
+...
+<body>
+    ...
+    <script src="bower_components/better-dom/dist/better-dom.js"></script>
+    <script src="build/better-i18n-plugin.js"></script>
+    <!-- populate strings from backend -->
+    <script>DOM.importStrings("{{locale}}",{{{catalog}}})</script>
+</body>
+</html>
+```
+
+Now you can use `DOM.__` with an appropriate key to get some backend string on a client side.
 
 ## Browser support
 #### Desktop
