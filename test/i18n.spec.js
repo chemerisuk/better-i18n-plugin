@@ -26,25 +26,27 @@ describe("__", function() {
     });
 
     describe("toString", function() {
-        it("should be overriden", function() {
-            entry = DOM.__(randomString);
-            expect(entry.toString()).toBe(randomString);
-
-            entry = DOM.__("test");
-            expect(entry.toString()).toBe("test");
-            expect(entry.toString("ru")).toBe("ru_test");
-
-            DOM.set("lang", "ru");
-            expect(entry.toString()).toBe("ru_test");
-            expect(entry.toString("ru")).toBe("ru_test");
-        });
-
         it("should use current language by default", function() {
             entry = DOM.__("test");
             expect(entry.toString()).toBe("test");
 
             DOM.set("lang", "ru");
             expect(entry.toString()).toBe("ru_test");
+        });
+    });
+
+    describe("toLocaleString", function() {
+        it("should be overriden", function() {
+            entry = DOM.__(randomString);
+            expect(entry.toLocaleString()).toBe(randomString);
+
+            entry = DOM.__("test");
+            expect(entry.toLocaleString()).toBe("test");
+            expect(entry.toLocaleString("ru")).toBe("ru_test");
+
+            DOM.set("lang", "ru");
+            expect(entry.toLocaleString()).toBe("ru_test");
+            expect(entry.toLocaleString("ru")).toBe("ru_test");
         });
     });
 

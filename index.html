@@ -17,13 +17,13 @@
     <button class="simple-test"></button>
     <script>
     DOM.importStrings("ru", "hello", "привет");
-    DOM.find(".simple-test").set(DOM.i18n("hello"));
+    DOM.find(".simple-test").set(DOM.__("hello").toHTMLString());
     </script>
 
     <h2>Non-localized value test</h2>
     <button class="unlocalized-test"></button>
     <script>
-    DOM.find(".unlocalized-test").set(DOM.i18n("unlocalized"));
+    DOM.find(".unlocalized-test").set(DOM.__("unlocalized").toHTMLString());
     </script>
 </body>
 </html>

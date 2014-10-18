@@ -54,10 +54,12 @@
     }
 
     Entry.prototype = {
-        toString(lang) {
-            if (!lang) lang = DOM.get("lang");
+        toString() {
+            return this[DOM.get("lang")] || this._;
+        },
 
-            return this[lang] || this._;
+        toLocaleString(lang) {
+            return lang ? this[lang] || this._ : this.toString();
         },
 
         toHTMLString() {
