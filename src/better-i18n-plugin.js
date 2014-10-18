@@ -2,47 +2,43 @@
 (function(DOM) {
     "use strict";
 
-    var strings = {},
+    var strings = [],
         languages = [];
 
     DOM.importStrings = function(lang, key, value) {
-        var keyType = typeof key,
-            langIndex = languages.indexOf(lang);
+        if (typeof lang !== "string") throw new TypeError("lang argument must be a string");
 
-        if (keyType === "string") {
-            if (langIndex === -1) {
-                langIndex = languages.push(lang) - 1;
+        var langIndex = languages.indexOf(lang),
+            stringsMap = strings[langIndex];
 
-                // add global rules to to able to switch to new language
-                var prefix = `:lang(${lang}) > `;
-                // by default localized strings should be hidden
-                DOM.importStyles(`[data-l10n="${lang}"]`, "display:none");
-                // ... except current page language is appropriate
-                DOM.importStyles(`${prefix}[data-l10n="${lang}"]`, "display:inline");
-                // ... in such case hide default string as well
-                DOM.importStyles(`${prefix}[data-l10n="${lang}"] ~ [data-l10n]`, "display:none");
-            }
+        if (langIndex === -1) {
+            langIndex = languages.push(lang) - 1;
+            strings[langIndex] = stringsMap = {};
 
-            if (!strings[key]) strings[key] = [];
+            // add global rules to to able to switch to new language
 
-            // store localized string internally
-            strings[key][langIndex] = value;
-        } else if (keyType === "object") {
-            Object.keys(key).forEach((x) => {
-                DOM.importStrings(lang, x, key[x]);
-            });
+            // by default localized strings should be hidden
+            DOM.importStyles(`[data-l10n="${lang}"]`, "display:none");
+            // ... except current page language is `lang`
+            DOM.importStyles(`:lang(${lang}) > [data-l10n="${lang}"]`, "display:inline");
+            // ... in such case hide default value too
+            DOM.importStyles(`:lang(${lang}) > [data-l10n="${lang}"] ~ [data-l10n]`, "display:none");
+        }
+
+        if (typeof key === "string") {
+            stringsMap[key] = value;
         } else {
-            throw TypeError("importStrings");
+            Object.keys(key).forEach((x) => {
+                stringsMap[x] = key[x];
+            });
         }
     };
 
     DOM.__ = (key, varMap) => new Entry(key, varMap);
 
     function Entry(key, varMap) {
-        var record = strings[key] || {};
-
         languages.forEach((lang, index) => {
-            var value = record[index];
+            var value = strings[index][key];
 
             if (value) {
                 if (varMap) value = DOM.format(value, varMap);
@@ -70,9 +66,9 @@
         var result = "";
 
         Object.keys(this).forEach((key) => {
-            var lang = key === "_" ? "" : key;
+            var attrValue = key === "_" ? "" : key;
 
-            result += `<span data-l10n="${lang}">${this[key]}</span>`;
+            result += `<span data-l10n="${attrValue}">${this[key]}</span>`;
         });
 
         return result;

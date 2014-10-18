@@ -22,11 +22,10 @@ describe("DOM.importStrings", function(){
     });
 
     it("should support key/value map as argument", function() {
-        var spy = spyOn(DOM, "importStrings").and.callThrough();
-
         DOM.importStrings("en", {a: "b", c: "d"});
-        expect(spy).toHaveBeenCalledWith("en", "a", "b");
-        expect(spy).toHaveBeenCalledWith("en", "c", "d");
+
+        expect(DOM.__("a").en).toBe("b");
+        expect(DOM.__("c").en).toBe("d");
     });
 
     // it("should update all existing localized strings", function() {
