@@ -49,6 +49,15 @@ DOM.set("lang", "ru");
 alert(DOM.__("Enter your name")); // shows "Введите ваше имя"
 ```
 
+If you need to get a value for a particular language use `toLocaleString` with an appropriate argument:
+
+```js
+var entry = DOM.__("Enter your name");
+
+entry.toString();           // => "Enter your name"
+entry.toLocaleString("ru"); // => "Введите ваше имя"
+```
+
 Function `DOM.__` can accept optional argument `varMap`:
 
 ```js
@@ -79,7 +88,7 @@ button.l10n("Hello {user}", {user: "Maksim"}); // displays "Hello Maksim"
 button.l10n("Hello {0}", ["Maksim"]);          // displays "Hello Maksim"
 ```
 
-## Multilangual live extensions
+## Multilingual live extensions
 In order to add support or use multiple languages of a live extension follow the convension below:
 
 1. All localizations are located inside if the `i18n` folder
