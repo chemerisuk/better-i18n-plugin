@@ -67,7 +67,7 @@
     Entry.prototype = new String();
     Entry.prototype.constructor = Entry;
 
-    Entry.prototype.toString = function() {
+    Entry.prototype.toString = Entry.prototype.valueOf = function() {
         return this[DOM.get("lang")] || this._;
     };
 

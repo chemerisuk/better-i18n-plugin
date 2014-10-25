@@ -32,6 +32,15 @@ describe("__", function() {
         expect(entry.concat("foo")).toEqual(randomString + "foo");
     });
 
+    it("allows to concat strings using operators", function() {
+        var entry1 = DOM.__("test");
+        var entry2 = DOM.__("test {0}");
+
+        DOM.set("lang", "ru");
+
+        expect(entry1 + "+" + entry2).toBe("ru_test+{0} ru_test");
+    });
+
     describe("toString", function() {
         it("should use current language by default", function() {
             entry = DOM.__("test");
