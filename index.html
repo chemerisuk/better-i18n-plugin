@@ -28,5 +28,17 @@
     <script>
     DOM.find(".unlocalized-test").l10n("unlocalized");
     </script>
+
+    <h2>Static access with DOM.__</h2>
+    <pre><script>
+    document.write(DOM.__("hello"));
+    document.write("<br>");
+    document.write(DOM.__("hello").toLocaleString("ru"));
+    </script></pre>
+
+    <h2>Using with DOM.format</h2>
+    <pre><script>
+    document.write(DOM.format("say {0} {1}", [DOM.__("hello").toHTMLString(), DOM.__("world").toHTMLString()]));
+    </script></pre>
 </body>
 </html>

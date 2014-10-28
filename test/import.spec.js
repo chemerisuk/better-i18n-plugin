@@ -12,12 +12,12 @@ describe("DOM.importStrings", function(){
 
         DOM.importStrings("en", randomString, "");
         expect(importSpy).toHaveBeenCalledWith("[data-l10n=\"en\"]", "display:none");
-        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-l10n=\"en\"]", "display:inline");
+        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-l10n=\"en\"]", "display:inline !important");
         expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-l10n=\"en\"] ~ [data-l10n]", "display:none");
 
         DOM.importStrings("fr", randomString, "");
         expect(importSpy).toHaveBeenCalledWith("[data-l10n=\"fr\"]", "display:none");
-        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-l10n=\"fr\"]", "display:inline");
+        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-l10n=\"fr\"]", "display:inline !important");
         expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-l10n=\"fr\"] ~ [data-l10n]", "display:none");
     });
 

@@ -20,7 +20,7 @@
             // by default localized strings should be hidden
             DOM.importStyles(`[data-l10n="${lang}"]`, "display:none");
             // ... except current page language is `lang`
-            DOM.importStyles(`:lang(${lang}) > [data-l10n="${lang}"]`, "display:inline");
+            DOM.importStyles(`:lang(${lang}) > [data-l10n="${lang}"]`, "display:inline !important");
             // ... in such case hide default value too
             DOM.importStyles(`:lang(${lang}) > [data-l10n="${lang}"] ~ [data-l10n]`, "display:none");
         }
@@ -36,7 +36,8 @@
 
     DOM.extend("*", {
         l10n(key, varMap) {
-            return this.set(new Entry(key, varMap).toHTMLString());
+            // unwrap outer <span> from toHTMLString call
+            return this.set(new Entry(key, varMap).toHTMLString().slice(6, -7));
         }
     });
 
@@ -72,10 +73,8 @@
         // "_" key should always be the last one
         var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
 
-        return keys.map((key) => {
-            var attrValue = key === "_" ? "" : key;
-
-            return `<span data-l10n="${attrValue}">${this[key]}</span>`;
-        }).join("");
-    }
+        return DOM.emmet("span>" + keys.map((key) => {
+            return "span[data-l10n=`" + key + "`]>`" + this[key] + "`";
+        }).join("^"));
+    };
 }(window.DOM));
