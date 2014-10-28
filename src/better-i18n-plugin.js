@@ -36,14 +36,7 @@
 
     DOM.extend("*", {
         l10n(key, varMap) {
-            var entry = new Entry(key, varMap),
-                keys = Object.keys(entry).sort((k) => k === "_" ? 1 : -1);
-
-            return this.set(keys.map((key) => {
-                var attrValue = key === "_" ? "" : key;
-
-                return `<span data-l10n="${attrValue}">${entry[key]}</span>`;
-            }).join(""));
+            return this.set(new Entry(key, varMap).toHTMLString());
         }
     });
 
@@ -74,4 +67,15 @@
     Entry.prototype.toLocaleString = function(lang) {
         return lang ? this[lang] || this._ : this.toString();
     };
+
+    Entry.prototype.toHTMLString = function() {
+        // "_" key should always be the last one
+        var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
+
+        return keys.map((key) => {
+            var attrValue = key === "_" ? "" : key;
+
+            return `<span data-l10n="${attrValue}">${this[key]}</span>`;
+        }).join("");
+    }
 }(window.DOM));
