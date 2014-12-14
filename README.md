@@ -10,7 +10,7 @@ The project aims to solve the internationalization problem __on front-end side__
 * support for HTML markup in localized string values
 * ability to change language on a document subtree
 
-NOTE: currently the project can't localize empty DOM elements (like `<input>`, `<select>` etc.) or attribute values.
+NOTE: at present the project can't localize empty DOM elements (like `<input>`, `<select>` etc.) or attribute values.
 
 ## Installing
 Use [bower](http://bower.io/) to download this extension with all required dependencies.
@@ -28,7 +28,7 @@ Then append the following scripts on your page:
 <script src="bower_components/better-i18n-plugin/dist/better-i18n-plugin.js"></script>
 ```
 
-## Localization on front-end
+## Localization in browser
 The plugin introduces 2 new static functions for the `DOM` namespace: `DOM.importStrings` and `DOM.__`. The first one is used to populate DOM with new localizations for a particular language:
 
 ```js
@@ -60,14 +60,14 @@ entry.toString();           // => "Enter your name"
 entry.toLocaleString("ru"); // => "Введите ваше имя"
 ```
 
-## Usage with better-dom
-Let's say you need to localize a button to support multiple languages. In this case you can just use `$Element#l10n`:
+## Usage with `$Element`
+Let's say you need to localize a button to support multiple languages. In this case you can use `$Element#l10n`:
 
 ```js
 button.l10n("Hello world");
 ```
 
-When you need to add a support for a new language just import a localized version of the string. For example the string in Russian:
+When you need to add a support for a new language import a localized version of the string. For example the string `"Hello world"` can be translated for Russian we pages like below:
 
 ```js
 DOM.importStrings("ru", "Hello world", "Привет мир");
@@ -87,7 +87,7 @@ button.l10n("Hello {user}", {user: "Maksim"}); // displays "Hello Maksim"
 button.l10n("Hello {0}", ["Maksim"]);          // displays "Hello Maksim"
 ```
 
-## Integration with backend
+## Backend integration
 Often you need to grab localized strings from backend. This is very easy to do using `DOM.importStrings`. In the example below I'll use [Handlebars](http://handlebarsjs.com) as a templating language and [i18n-node](https://github.com/mashpie/i18n-node).
 
 Assume you stored web page language in `res.locals.locale`. Then you need to add another variable that stores all backend strings map passed into `JSON.stringify` call:
