@@ -1,6 +1,6 @@
 /**
  * better-i18n-plugin: Internationalization plugin for better-dom
- * @version 1.0.2 Tue, 28 Oct 2014 17:19:30 GMT
+ * @version 1.0.3 Sun, 14 Dec 2014 11:07:38 GMT
  * @link https://github.com/chemerisuk/better-i18n-plugin
  * @copyright 2014 Maksim Chemerisuk
  * @license MIT
