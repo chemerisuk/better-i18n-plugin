@@ -1,6 +1,6 @@
 /**
  * better-i18n-plugin: Internationalization plugin for better-dom
- * @version 1.0.3 Sun, 14 Dec 2014 11:07:38 GMT
+ * @version 1.0.4 Thu, 12 Nov 2015 12:00:39 GMT
  * @link https://github.com/chemerisuk/better-i18n-plugin
  * @copyright 2014 Maksim Chemerisuk
  * @license MIT
@@ -48,7 +48,13 @@
         }
     });
 
-    DOM.__ = function(key, varMap)  {return new Entry(key, varMap)};
+    DOM.__ = function(key, varMap)  {
+        if (Array.isArray(key)) {
+            return key.map(function(key)  {return new Entry(key, varMap)});
+        } else {
+            return new Entry(key, varMap);
+        }
+    };
 
     function Entry(key, varMap) {var this$0 = this;
         languages.forEach(function(lang, index)  {
