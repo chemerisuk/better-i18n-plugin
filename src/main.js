@@ -41,7 +41,13 @@
         }
     });
 
-    DOM.__ = (key, varMap) => new Entry(key, varMap);
+    DOM.__ = (key, varMap) => {
+        if (Array.isArray(key)) {
+            return key.map((key) => new Entry(key, varMap));
+        } else {
+            return new Entry(key, varMap);
+        }
+    };
 
     function Entry(key, varMap) {
         languages.forEach((lang, index) => {

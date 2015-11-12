@@ -41,6 +41,16 @@ describe("__", function() {
         expect(entry1 + "+" + entry2).toBe("ru_test+{0} ru_test");
     });
 
+    it("supports arrays", function() {
+        var entries = DOM.__(["test", "test {0}"]);
+
+        DOM.set("lang", "ru");
+
+        expect(Array.isArray(entries)).toBe(true);
+        expect(entries[0].toLocaleString()).toBe("ru_test");
+        expect(entries[1].toLocaleString()).toBe("{0} ru_test");
+    });
+
     describe("toString", function() {
         it("should use current language by default", function() {
             entry = DOM.__("test");
