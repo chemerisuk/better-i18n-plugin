@@ -88,16 +88,18 @@ button.l10n("Hello {0}", ["Maksim"]);          // displays "Hello Maksim"
 ```
 
 ## Backend integration
-Often you need to grab localized strings from backend. This is very easy to do using `DOM.importStrings`. In the example below I'll use [Handlebars](http://handlebarsjs.com) as a templating language and [i18n-node](https://github.com/mashpie/i18n-node).
+Often you need to grab localized strings from backend. This is very easy to do using `DOM.importStrings`. In the example below I'll use [Handlebars](http://handlebarsjs.com) as a templating language and [i18n-node](https://github.com/mashpie/i18n-node) for I18N support.
 
-Assume you stored web page language in `res.locals.locale`. Then you need to add another variable that stores all backend strings map passed into `JSON.stringify` call:
+Assume you've stored web page language in `res.locals.locale`. Then you need to add another variable that stores all backend strings map passed into `JSON.stringify` call:
 
 ```js
-res.locals.locale = "ru"; // language of your web page
-res.locals.catalog = JSON.stringify(i18n.getCatalog(res.locals.locale));
+// remember language of your web page
+res.locals.locale = "ru";
+// generate string bundle for client side
+res.locals.bundle = JSON.stringify(i18n.getCatalog(res.locals.locale));
 ```
 
-After that add extra `script` element that will populate all backend strings on froentend side:
+After that just generate extra `<script>` element that will populate all backend strings in browser:
 
 ```html
 <!DOCTYPE html>
@@ -108,7 +110,7 @@ After that add extra `script` element that will populate all backend strings on 
     <script src="bower_components/better-dom/dist/better-dom.js"></script>
     <script src="build/better-i18n-plugin.js"></script>
     <!-- populate strings from backend -->
-    <script>DOM.importStrings("{{locale}}",{{{catalog}}})</script>
+    <script>DOM.importStrings("{{locale}}",{{{bundle}}})</script>
 </body>
 </html>
 ```
