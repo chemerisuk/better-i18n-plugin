@@ -5,6 +5,36 @@
     var strings = [],
         languages = [];
 
+    function formatKey(key, args, start = 0) {
+        return key.replace(/%s/g, (str) => args[start++] || str);
+    }
+
+    function Entry(key, args) {
+        languages.forEach((lang, index) => {
+            var value = strings[index][key];
+
+            if (value) {
+                if (args) value = formatKey(value, args);
+
+                this[lang] = value;
+            }
+        });
+
+        this._ = args ? formatKey(key, args) : key;
+    }
+
+    Entry.prototype.toString = function() {
+        // "_" key should always be the last one
+        var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
+
+        return keys.map((key) =>
+            `<span data-l10n="${key}">${this[key]}</span>`).join("");
+    };
+
+    Entry.prototype.toLocaleString = function(lang) {
+        return this[lang || DOM.get("documentElement").lang] || this._;
+    };
+
     DOM.importStrings = function(lang, key, value) {
         if (typeof lang !== "string") throw new TypeError("lang argument must be a string");
 
@@ -34,37 +64,11 @@
         }
     };
 
-    DOM.__ = (key, varMap) => {
+    DOM.__ = (key, ...args) => {
         if (Array.isArray(key)) {
-            return key.map((key) => new Entry(key, varMap));
+            return key.map((key) => new Entry(key, args));
         } else {
-            return new Entry(key, varMap);
+            return new Entry(key, args);
         }
-    };
-
-    function Entry(key, varMap) {
-        languages.forEach((lang, index) => {
-            var value = strings[index][key];
-
-            if (value) {
-                if (varMap) value = DOM.format(value, varMap);
-
-                this[lang] = value;
-            }
-        });
-
-        this._ = varMap ? DOM.format(key, varMap) : key;
-    }
-
-    Entry.prototype.toString = function() {
-        // "_" key should always be the last one
-        var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
-
-        return keys.map((key) =>
-            `<span data-l10n="${key}">${this[key]}</span>`).join("");
-    };
-
-    Entry.prototype.toLocaleString = function(lang) {
-        return this[lang || DOM.get("documentElement").lang] || this._;
     };
 }(window.DOM));

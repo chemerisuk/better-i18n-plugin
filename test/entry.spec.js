@@ -14,8 +14,7 @@ describe("__", function() {
     });
 
     DOM.importStrings("ru", "test", "ru_test");
-    DOM.importStrings("ru", "test {0}", "{0} ru_test");
-    DOM.importStrings("ru", "test {value}", "ru_test {value}");
+    DOM.importStrings("ru", "test %s", "%s ru_test");
 
     it("should return an Entry object", function() {
         entry = DOM.__(randomString);
@@ -25,35 +24,31 @@ describe("__", function() {
         expect(JSON.stringify(entry)).toEqual(JSON.stringify({ru: "ru_test", _: "test"}));
     });
 
-/*    it("grabs methods from String.prototype", function() {
-        entry = DOM.__(randomString);
-        expect(entry.split(",")).toEqual([randomString]);
-        expect(entry.substr(1)).toEqual(randomString.substr(1));
-        expect(entry.concat("foo")).toEqual(randomString + "foo");
-    });
-
-    it("allows to concat strings using operators", function() {
-        var entry1 = DOM.__("test");
-        var entry2 = DOM.__("test {0}");
-
-        DOM.set("lang", "ru");
-
-        expect(entry1 + "+" + entry2).toBe("ru_test+{0} ru_test");
-    });*/
-
     it("supports arrays", function() {
-        var entries = DOM.__(["test", "test {0}"]);
+        var entries = DOM.__(["test", "test %s"]);
 
         DOM.find("html").set("lang", "ru");
 
         expect(Array.isArray(entries)).toBe(true);
         expect(entries[0].toLocaleString()).toBe("ru_test");
-        // expect(entries[1].toLocaleString()).toBe("{0} ru_test");
+        expect(entries[1].toLocaleString()).toBe("%s ru_test");
     });
 
-    // describe("toString", function() {
+    describe("toString", function() {
+        it("should work for non-localized strings", function() {
+            expect(DOM.__(randomString).toString()).toBe('<span data-l10n="_">' + randomString + '</span>');
+        });
 
-    // });
+        it("should support variables", function() {
+            var expectedHTML = '<span data-l10n="_">' + randomString + '</span>';
+
+            expect(DOM.__(randomString, "abc").toString()).toBe(expectedHTML);
+            expect(DOM.__(randomString, {value: "123"}).toString()).toBe(expectedHTML);
+
+            expect(DOM.__("test %s", "abc").toString()).toBe('<span data-l10n="ru">abc ru_test</span><span data-l10n="_">test abc</span>');
+            expect(DOM.__("test %s", "123").toString()).toBe('<span data-l10n="ru">123 ru_test</span><span data-l10n="_">test 123</span>');
+        });
+    });
 
     describe("toLocaleString", function() {
         it("should be overriden", function() {
