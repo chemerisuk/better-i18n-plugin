@@ -11,7 +11,7 @@
 </head>
 <body>
     <p>Choose page language:
-        <select onchange="DOM.set('lang', this.value)">
+        <select onchange="DOM.find('html').set('lang', this.value)">
             <option value="">Default</option>
             <option value="ru">Russian</option>
         </select>
@@ -20,13 +20,13 @@
     <button class="simple-test"></button>
     <script>
     DOM.importStrings("ru", "hello", "привет");
-    DOM.find(".simple-test").l10n("hello");
+    DOM.find(".simple-test").value(DOM.__("hello"));
     </script>
 
     <h2>Non-localized value test</h2>
     <button class="unlocalized-test"></button>
     <script>
-    DOM.find(".unlocalized-test").l10n("unlocalized");
+    DOM.find(".unlocalized-test").value(DOM.__("unlocalized"));
     </script>
 
     <h2>Static access with DOM.__</h2>
@@ -38,7 +38,7 @@
 
     <h2>Using with DOM.format</h2>
     <pre><script>
-    document.write(DOM.format("say {0} {1}", [DOM.__("hello").toHTMLString(), DOM.__("world").toHTMLString()]));
+    document.write("say " + DOM.__("hello"));
     </script></pre>
 </body>
 </html>
