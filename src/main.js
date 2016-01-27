@@ -57,19 +57,14 @@
     }
 
     Entry.prototype.toString = function() {
-        return this[DOM.get("documentElement").lang] || this._;
+        // "_" key should always be the last one
+        var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
+
+        return keys.map((key) =>
+            `<span data-l10n="${key}">${this[key]}</span>`).join("");
     };
 
     Entry.prototype.toLocaleString = function(lang) {
-        return lang ? this[lang] || this._ : this.toString();
+        return this[lang || DOM.get("documentElement").lang] || this._;
     };
-
-    // Entry.prototype.toHTMLString = function() {
-    //     // "_" key should always be the last one
-    //     var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
-
-    //     return DOM.emmet("span>" + keys.map((key) => {
-    //         return "span[data-l10n=`" + key + "`]>`" + this[key] + "`";
-    //     }).join("^"));
-    // };
 }(window.DOM));

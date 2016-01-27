@@ -51,15 +51,9 @@ describe("__", function() {
         // expect(entries[1].toLocaleString()).toBe("{0} ru_test");
     });
 
-    describe("toString", function() {
-        it("should use current language by default", function() {
-            entry = DOM.__("test");
-            expect(entry.toString()).toBe("test");
+    // describe("toString", function() {
 
-            DOM.find("html").set("lang", "ru");
-            expect(entry.toString()).toBe("ru_test");
-        });
-    });
+    // });
 
     describe("toLocaleString", function() {
         it("should be overriden", function() {
@@ -73,6 +67,14 @@ describe("__", function() {
             DOM.find("html").set("lang", "ru");
             expect(entry.toLocaleString()).toBe("ru_test");
             expect(entry.toLocaleString("ru")).toBe("ru_test");
+        });
+
+        it("should use current language by default", function() {
+            entry = DOM.__("test");
+            expect(entry.toLocaleString()).toBe("test");
+
+            DOM.find("html").set("lang", "ru");
+            expect(entry.toLocaleString()).toBe("ru_test");
         });
     });
 });
