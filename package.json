@@ -1,13 +1,20 @@
 {
   "name": "better-i18n-plugin",
   "description": "Internationalization plugin for better-dom",
-  "version": "1.0.4",
+  "version": "2.0.0-beta.0",
   "author": "Maksim Chemerisuk",
   "license": "MIT",
-  "homepage": "https://github.com/chemerisuk/better-i18n-plugin",
+  "homepage": "https://github.com/chemerisuk/better-emmet-plugin#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chemerisuk/better-i18n-plugin"
+    "url": "git+https://github.com/chemerisuk/better-i18n-plugin"
+  },
+  "keywords": [
+    "ecosystem:better-dom",
+    "better-dom-plugin"
+  ],
+  "bugs": {
+    "url": "https://github.com/chemerisuk/better-emmet-plugin/issues"
   },
   "config": {
     "gulp": "--gulpfile node_modules/better-dom-boilerplate/gulpfile.js --cwd ."
@@ -15,8 +22,8 @@
   "scripts": {
     "test": "gulp test $npm_package_config_gulp",
     "start": "gulp dev $npm_package_config_gulp",
-    "release": "gulp release $npm_package_config_gulp",
-    "postrelease": "gulp gh-pages $npm_package_config_gulp"
+    "version": "gulp dist $npm_package_config_gulp",
+    "postversion": "git push && git push --tags"
   },
   "devDependencies": {
     "better-dom-boilerplate": "git://github.com/chemerisuk/better-dom-boilerplate.git"
