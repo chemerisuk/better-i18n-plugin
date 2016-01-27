@@ -36,17 +36,17 @@ describe("__", function() {
 
     describe("toString", function() {
         it("should work for non-localized strings", function() {
-            expect(DOM.__(randomString).toString()).toBe('<span data-l10n="_">' + randomString + '</span>');
+            expect(DOM.__(randomString).toString()).toBe('<span><span data-l10n="_">' + randomString + '</span></span>');
         });
 
         it("should support variables", function() {
-            var expectedHTML = '<span data-l10n="_">' + randomString + '</span>';
+            var expectedHTML = '<span><span data-l10n="_">' + randomString + '</span></span>';
 
             expect(DOM.__(randomString, "abc").toString()).toBe(expectedHTML);
             expect(DOM.__(randomString, {value: "123"}).toString()).toBe(expectedHTML);
 
-            expect(DOM.__("test %s", "abc").toString()).toBe('<span data-l10n="ru">abc ru_test</span><span data-l10n="_">test abc</span>');
-            expect(DOM.__("test %s", "123").toString()).toBe('<span data-l10n="ru">123 ru_test</span><span data-l10n="_">test 123</span>');
+            expect(DOM.__("test %s", "abc").toString()).toBe('<span><span data-l10n="ru">abc ru_test</span><span data-l10n="_">test abc</span></span>');
+            expect(DOM.__("test %s", "123").toString()).toBe('<span><span data-l10n="ru">123 ru_test</span><span data-l10n="_">test 123</span></span>');
         });
     });
 
