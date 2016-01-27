@@ -34,13 +34,6 @@
         }
     };
 
-    DOM.extend("*", {
-        l10n(key, varMap) {
-            // unwrap outer <span> from toHTMLString call
-            return this.set(new Entry(key, varMap).toHTMLString().slice(6, -7));
-        }
-    });
-
     DOM.__ = (key, varMap) => {
         if (Array.isArray(key)) {
             return key.map((key) => new Entry(key, varMap));
@@ -63,24 +56,20 @@
         this._ = varMap ? DOM.format(key, varMap) : key;
     }
 
-    // grab all methods from String.prototype
-    Entry.prototype = new String();
-    Entry.prototype.constructor = Entry;
-
-    Entry.prototype.toString = Entry.prototype.valueOf = function() {
-        return this[DOM.get("lang")] || this._;
+    Entry.prototype.toString = function() {
+        return this[DOM.get("documentElement").lang] || this._;
     };
 
     Entry.prototype.toLocaleString = function(lang) {
         return lang ? this[lang] || this._ : this.toString();
     };
 
-    Entry.prototype.toHTMLString = function() {
-        // "_" key should always be the last one
-        var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
+    // Entry.prototype.toHTMLString = function() {
+    //     // "_" key should always be the last one
+    //     var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
 
-        return DOM.emmet("span>" + keys.map((key) => {
-            return "span[data-l10n=`" + key + "`]>`" + this[key] + "`";
-        }).join("^"));
-    };
+    //     return DOM.emmet("span>" + keys.map((key) => {
+    //         return "span[data-l10n=`" + key + "`]>`" + this[key] + "`";
+    //     }).join("^"));
+    // };
 }(window.DOM));
