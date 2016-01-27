@@ -26,12 +26,16 @@
     Entry.prototype.toString = function() {
         // "_" key should always be the last one
         var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
-        var value = "<span>" + keys.map((key) =>
-            `<span data-l10n="${key}">${this[key]}</span>`).join("") + "</span>";
+        var value = keys.map((key) =>
+            `<span data-l10n="${key}">${this[key]}</span>`).join("");
         // do not generate the string twise
         this.toString = () => value;
 
         return value;
+    };
+
+    Entry.prototype.valueOf = function() {
+        return "<span>" + this.toString() + "</span>";
     };
 
     Entry.prototype.toLocaleString = function(lang) {
