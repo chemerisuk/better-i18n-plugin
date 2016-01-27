@@ -28,7 +28,7 @@
         var keys = Object.keys(this).sort((k) => k === "_" ? 1 : -1);
 
         return keys.map((key) =>
-            `<span data-l10n="${key}">${this[key]}</span>`).join("");
+            `<span lang="${key}">${this[key]}</span>`).join("");
     };
 
     Entry.prototype.valueOf = function() {
@@ -54,11 +54,11 @@
             // add global rules to to able to switch to new language
 
             // by default localized strings should be hidden
-            DOM.importStyles(`[data-l10n="${lang}"]`, "display:none");
+            DOM.importStyles(`span[lang="${lang}"]`, "display:none");
             // ... except current page language is `lang`
-            DOM.importStyles(`:lang(${lang}) > [data-l10n="${lang}"]`, "display:inline !important");
+            DOM.importStyles(`:lang(${lang}) > span[lang="${lang}"]`, "display:inline !important");
             // ... in such case hide default value too
-            DOM.importStyles(`:lang(${lang}) > [data-l10n="${lang}"] ~ [data-l10n]`, "display:none");
+            DOM.importStyles(`:lang(${lang}) > span[lang="${lang}"] ~ span[lang]`, "display:none");
         }
 
         if (typeof key === "string") {

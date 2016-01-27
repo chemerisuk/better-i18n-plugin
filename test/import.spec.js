@@ -11,14 +11,14 @@ describe("DOM.importStrings", function(){
         var importSpy = spyOn(DOM, "importStyles");
 
         DOM.importStrings("en", randomString, "");
-        expect(importSpy).toHaveBeenCalledWith("[data-l10n=\"en\"]", "display:none");
-        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-l10n=\"en\"]", "display:inline !important");
-        expect(importSpy).toHaveBeenCalledWith(":lang(en) > [data-l10n=\"en\"] ~ [data-l10n]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith("span[lang=\"en\"]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith(":lang(en) > span[lang=\"en\"]", "display:inline !important");
+        expect(importSpy).toHaveBeenCalledWith(":lang(en) > span[lang=\"en\"] ~ span[lang]", "display:none");
 
         DOM.importStrings("fr", randomString, "");
-        expect(importSpy).toHaveBeenCalledWith("[data-l10n=\"fr\"]", "display:none");
-        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-l10n=\"fr\"]", "display:inline !important");
-        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > [data-l10n=\"fr\"] ~ [data-l10n]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith("span[lang=\"fr\"]", "display:none");
+        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > span[lang=\"fr\"]", "display:inline !important");
+        expect(importSpy).toHaveBeenCalledWith(":lang(fr) > span[lang=\"fr\"] ~ span[lang]", "display:none");
     });
 
     it("should support key/value map as argument", function() {
@@ -34,10 +34,10 @@ describe("DOM.importStrings", function(){
     //     jasmine.sandbox.set(link);
 
     //     link.l10n(randomString).set("en");
-    //     expect(link.get("data-l10n-en")).toBeNull();
+    //     expect(link.get("lang-en")).toBeNull();
 
     //     DOM.importStrings("en", randomString, "test");
-    //     expect(link.get("data-l10n-en")).toBe("test");
+    //     expect(link.get("lang-en")).toBe("test");
     // });
 
     it("should throw error if arguments are invalid", function() {
