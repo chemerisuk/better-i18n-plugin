@@ -77,4 +77,8 @@
             return new Entry(key, args);
         }
     };
+
+    DOM.__.esliteral = (parts, ...args) => {
+        return DOM.__(parts.join("%s"), ...args).toLocaleString();
+    };
 }(window.DOM));
