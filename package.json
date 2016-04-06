@@ -11,7 +11,9 @@
   },
   "keywords": [
     "ecosystem:better-dom",
-    "better-dom-plugin"
+    "better-i18n-plugin",
+    "i18n",
+    "l10n"
   ],
   "bugs": {
     "url": "https://github.com/chemerisuk/better-emmet-plugin/issues"
@@ -26,6 +28,9 @@
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
+    "better-dom": "^3.0.0-beta.3"
+  },
+  "peerDependencies": {
     "better-dom": "^3.0.0-beta.3"
   },
   "devDependencies": {
