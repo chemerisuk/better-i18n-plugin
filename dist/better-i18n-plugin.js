@@ -1,7 +1,7 @@
 /**
  * better-i18n-plugin: Internationalization plugin for better-dom
- * @version 2.0.0-beta.1 Wed, 27 Jan 2016 14:30:07 GMT
- * @link https://github.com/chemerisuk/better-emmet-plugin#readme
+ * @version 2.0.0-beta.2 Wed, 06 Apr 2016 16:25:43 GMT
+ * @link https://github.com/chemerisuk/better-emmet-plugin
  * @copyright 2016 Maksim Chemerisuk
  * @license MIT
  */
@@ -100,5 +100,13 @@
         } else {
             return new Entry(key, args);
         }
+    };
+
+    DOM.__.esliteral = function (parts) {
+        for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+            args[_key2 - 1] = arguments[_key2];
+        }
+
+        return DOM.__.apply(DOM, [parts.join("%s")].concat(args)).toLocaleString();
     };
 })(window.DOM);
