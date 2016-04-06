@@ -1,4 +1,4 @@
-# better-i18n-plugin<br>[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][bower-image]][bower-url]
+# better-i18n-plugin<br>[![NPM version][npm-version]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][bower-image]][bower-url]
 > Internationalization plugin for [better-dom](https://github.com/chemerisuk/better-dom)
 
 The project aims to solve the internationalization problem __on front-end side__. The technique used behind the scenes I call “CSS-driven internationalization” and there is a [deep article](http://www.smashingmagazine.com/2014/06/23/css-driven-internationalization-in-javascript/) about it.
@@ -153,6 +153,10 @@ In order to add support or use multiple languages of a live extension follow the
 * iOS Safari 6+
 * Android 2.3+
 * Chrome for Android
+
+[npm-url]: https://www.npmjs.com/package/better-i18n-plugin
+[npm-version]: https://img.shields.io/npm/v/better-i18n-plugin.svg
+[npm-downloads]: https://img.shields.io/npm/dt/better-i18n-plugin.svg
 
 [travis-url]: http://travis-ci.org/chemerisuk/better-i18n-plugin
 [travis-image]: http://img.shields.io/travis/chemerisuk/better-i18n-plugin/master.svg
