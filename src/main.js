@@ -15,9 +15,7 @@
                 var value = strings[index][key];
 
                 if (value) {
-                    if (args) value = formatKey(value, args);
-
-                    this[lang] = value;
+                    this[lang] = args ? formatKey(value, args) : value;
                 }
             });
 
@@ -81,6 +79,6 @@
     };
 
     DOM.__.esliteral = (parts, ...args) => {
-        return DOM.__(parts.join("%s"), ...args).toLocaleString();
+        return new Entry(parts.join("%s"), args).toLocaleString();
     };
 }(window.DOM));
