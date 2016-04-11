@@ -1,16 +1,18 @@
 /**
  * better-i18n-plugin: Internationalization plugin for better-dom
- * @version 2.0.0-beta.2 Wed, 06 Apr 2016 16:25:43 GMT
+ * @version 2.0.0-rc.1 Mon, 11 Apr 2016 10:16:21 GMT
  * @link https://github.com/chemerisuk/better-emmet-plugin
  * @copyright 2016 Maksim Chemerisuk
  * @license MIT
  */
-/* jshint -W053 */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 (function (DOM) {
     "use strict";
 
     var strings = [],
-        languages = [];
+        languages = [],
+        HTML = DOM.get("documentElement");
 
     function formatKey(key, args) {
         var start = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
@@ -20,42 +22,44 @@
         });
     }
 
-    function Entry(key, args) {
-        var _this = this;
+    var Entry = function () {
+        function Entry(key, args) {
+            var _this = this;
 
-        languages.forEach(function (lang, index) {
-            var value = strings[index][key];
+            _classCallCheck(this, Entry);
 
-            if (value) {
-                if (args) value = formatKey(value, args);
+            languages.forEach(function (lang, index) {
+                var value = strings[index][key];
 
-                _this[lang] = value;
-            }
-        });
+                if (value) {
+                    _this[lang] = args ? formatKey(value, args) : value;
+                }
+            });
 
-        this._ = args ? formatKey(key, args) : key;
-    }
+            this._ = args ? formatKey(key, args) : key;
+        }
 
-    Entry.prototype.toString = function () {
-        var _this2 = this;
+        Entry.prototype.toString = function toString() {
+            var _this2 = this;
 
-        // "_" key should always be the last one
-        var keys = Object.keys(this).sort(function (k) {
-            return k === "_" ? 1 : -1;
-        });
+            // "_" key should always be the last one
+            return Object.keys(this).sort(function (key) {
+                return key === "_" ? 1 : -1;
+            }).map(function (key) {
+                return "<span lang=\"" + key + "\">" + _this2[key] + "</span>";
+            }).join("");
+        };
 
-        return keys.map(function (key) {
-            return "<span lang=\"" + key + "\">" + _this2[key] + "</span>";
-        }).join("");
-    };
+        Entry.prototype.toLocaleString = function toLocaleString(lang) {
+            return this[lang || HTML.lang] || this._;
+        };
 
-    Entry.prototype.valueOf = function () {
-        return "<span>" + this.toString() + "</span>";
-    };
+        Entry.prototype.valueOf = function valueOf() {
+            return "<span>" + this.toString() + "</span>";
+        };
 
-    Entry.prototype.toLocaleString = function (lang) {
-        return this[lang || DOM.get("documentElement").lang] || this._;
-    };
+        return Entry;
+    }();
 
     DOM.importStrings = function (lang, key, value) {
         if (typeof lang !== "string") {
@@ -107,6 +111,6 @@
             args[_key2 - 1] = arguments[_key2];
         }
 
-        return DOM.__.apply(DOM, [parts.join("%s")].concat(args)).toLocaleString();
+        return new Entry(parts.join("%s"), args).toLocaleString();
     };
 })(window.DOM);
