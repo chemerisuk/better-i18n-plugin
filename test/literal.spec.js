@@ -1,7 +1,7 @@
 describe("literal function", () => {
     "use strict";
 
-    var i18n = DOM.__.esliteral;
+    var i18n = DOM.i18nLiteral;
 
     it("constructs appropriate string", function() {
         var bar = "foo";

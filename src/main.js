@@ -78,7 +78,7 @@
         }
     };
 
-    DOM.__.esliteral = (parts, ...args) => {
+    DOM.i18nLiteral = (parts, ...args) => {
         return new Entry(parts.join("%s"), args).toLocaleString();
     };
 }(window.DOM));
