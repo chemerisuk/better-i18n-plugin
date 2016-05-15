@@ -3,10 +3,15 @@
 
     var strings = [],
         languages = [],
+        reParam = /%s/g,
         HTML = DOM.get("documentElement");
 
     function formatKey(key, args, start = 0) {
-        return key.replace(/%s/g, (str) => args[start++] || str);
+        if (args) {
+            return key.replace(reParam, (str) => args[start++] || str);
+        } else {
+            return key;
+        }
     }
 
     class Entry {
@@ -15,11 +20,11 @@
                 var value = strings[index][key];
 
                 if (value) {
-                    this[lang] = args ? formatKey(value, args) : value;
+                    this[lang] = formatKey(value, args);
                 }
             });
 
-            this._ = args ? formatKey(key, args) : key;
+            this._ = formatKey(key, args);
         }
 
         toString() {
