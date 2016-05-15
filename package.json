@@ -4,7 +4,7 @@
   "version": "2.0.0-rc.1",
   "author": "Maksim Chemerisuk",
   "license": "MIT",
-  "homepage": "https://github.com/chemerisuk/better-emmet-plugin",
+  "homepage": "https://github.com/chemerisuk/better-i18n-plugin",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chemerisuk/better-i18n-plugin"
@@ -16,7 +16,7 @@
     "l10n"
   ],
   "bugs": {
-    "url": "https://github.com/chemerisuk/better-emmet-plugin/issues"
+    "url": "https://github.com/chemerisuk/better-i18n-plugin/issues"
   },
   "config": {
     "gulp": "--gulpfile node_modules/better-dom-boilerplate/gulpfile.js --cwd ."
