@@ -1,6 +1,6 @@
 /**
  * better-i18n-plugin: Internationalization plugin for better-dom
- * @version 2.0.0-rc.2 Sun, 15 May 2016 11:43:41 GMT
+ * @version 2.0.0-rc.3 Wed, 12 Oct 2016 09:31:58 GMT
  * @link https://github.com/chemerisuk/better-i18n-plugin
  * @copyright 2016 Maksim Chemerisuk
  * @license MIT
@@ -13,7 +13,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var strings = [],
         languages = [],
         reParam = /%s/g,
-        HTML = DOM.get("documentElement");
+        HTML = document.documentElement;
 
     function formatKey(key, args) {
         var start = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
