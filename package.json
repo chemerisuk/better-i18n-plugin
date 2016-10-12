@@ -28,7 +28,7 @@
     "postversion": "git push && git push --tags"
   },
   "peerDependencies": {
-    "better-dom": "^3.0.0-rc.1"
+    "better-dom": ">=2.0.0"
   },
   "devDependencies": {
     "better-dom-boilerplate": "git://github.com/chemerisuk/better-dom-boilerplate.git"

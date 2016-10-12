@@ -4,7 +4,7 @@
     var strings = [],
         languages = [],
         reParam = /%s/g,
-        HTML = DOM.get("documentElement");
+        HTML = document.documentElement;
 
     function formatKey(key, args, start = 0) {
         if (args) {
