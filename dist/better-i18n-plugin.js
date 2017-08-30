@@ -1,8 +1,8 @@
 /**
  * better-i18n-plugin: Internationalization plugin for better-dom
- * @version 2.0.0 Sat, 15 Oct 2016 16:14:02 GMT
+ * @version 2.0.1 Wed, 30 Aug 2017 15:49:56 GMT
  * @link https://github.com/chemerisuk/better-i18n-plugin
- * @copyright 2016 Maksim Chemerisuk
+ * @copyright 2017 Maksim Chemerisuk
  * @license MIT
  */
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20,7 +20,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         if (args) {
             return key.replace(reParam, function (str) {
-                return args[start++] || str;
+                return args[start++] != null ? args[start - 1] : str;
             });
         } else {
             return key;
