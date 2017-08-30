@@ -47,6 +47,7 @@ describe("__", function() {
 
             expect(DOM.__("test %s", "abc").toString()).toBe('<span lang="ru">abc ru_test</span><span lang="_">test abc</span>');
             expect(DOM.__("test %s", "123").toString()).toBe('<span lang="ru">123 ru_test</span><span lang="_">test 123</span>');
+            expect(DOM.__("test %s", 0).toString()).toBe('<span lang="ru">0 ru_test</span><span lang="_">test 0</span>');
         });
     });
 

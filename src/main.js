@@ -8,7 +8,7 @@
 
     function formatKey(key, args, start = 0) {
         if (args) {
-            return key.replace(reParam, (str) => args[start++] || str);
+            return key.replace(reParam, (str) => args[start++] != null ? args[start - 1] : str);
         } else {
             return key;
         }
